@@ -1,0 +1,202 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Legendre Symbol Calculator</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: linear-gradient(135deg, #00c9ff, #92fe9d);
+      height: 100vh;
+      margin: 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      animation: fadeIn 1.2s ease;
+    }
+
+    body::before {
+      content: "";
+      background-image: url('p.jpg');
+      background-size: cover;
+      background-repeat: no-repeat;
+      background-position: center;
+      background-attachment: fixed;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: -1;
+    }
+
+    .container {
+      background: rgba(255, 255, 255, 0.95);
+      padding: 30px 25px;
+      border-radius: 16px;
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+      text-align: center;
+      width: 400px;
+      animation: popIn 0.9s ease-out;
+    }
+
+    h2 {
+      color: #333;
+      margin-bottom: 20px;
+      font-size: 24px;
+      animation: floatText 3s ease-in-out infinite;
+    }
+
+    input[type="number"], button {
+      width: 100%;
+      padding: 12px;
+      margin: 12px 0;
+      border-radius: 8px;
+      border: 1px solid #ccc;
+      font-size: 16px;
+      box-sizing: border-box;
+      transition: 0.3s ease;
+    }
+
+    input[type="number"]:focus {
+      outline: none;
+      border-color: #00c9ff;
+      box-shadow: 0 0 10px #00c9ff55;
+    }
+
+    button {
+      background: linear-gradient(135deg, #00c9ff, #92fe9d);
+      color: white;
+      font-weight: bold;
+      cursor: pointer;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    button:hover {
+      transform: scale(1.05);
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+    }
+
+    .result {
+      display: none;
+      opacity: 0;
+      transform: translateY(10px);
+      transition: all 0.4s ease;
+      margin-top: 20px;
+      font-weight: bold;
+      font-size: 16px;
+      color: #333;
+      padding: 10px;
+      background: #f3f3f3;
+      border-radius: 8px;
+      min-height: 50px;
+    }
+
+    .result.visible {
+      display: block;
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .error {
+      color: red;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: scale(0.95); }
+      to { opacity: 1; transform: scale(1); }
+    }
+
+    @keyframes popIn {
+      from { transform: scale(0.8); opacity: 0; }
+      to { transform: scale(1); opacity: 1; }
+    }
+
+    @keyframes floatText {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-6px); }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h2>Legendre Symbol \( \left( \frac{a}{p} \right) \)</h2>
+    <input type="number" id="a" placeholder="Enter a (numerator)" />
+    <input type="number" id="p" placeholder="Enter p (odd prime)" />
+    <button onclick="calculateLegendre()">Calculate</button>
+    <div class="result" id="output"></div>
+  </div>
+
+  <script id="MathJax-script" async
+  src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+
+  <script>
+    function modPow(base, exponent, mod) {
+      base = BigInt(base);
+      exponent = BigInt(exponent);
+      mod = BigInt(mod);
+      let result = 1n;
+      while (exponent > 0) {
+        if (exponent % 2n === 1n) result = (result * base) % mod;
+        base = (base * base) % mod;
+        exponent /= 2n;
+      }
+      return result;
+    }
+
+    function isPrime(n) {
+      if (n < 2) return false;
+      if (n === 2) return true;
+      if (n % 2 === 0) return false;
+      for (let i = 3; i * i <= n; i += 2) {
+        if (n % i === 0) return false;
+      }
+      return true;
+    }
+
+    function calculateLegendre() {
+      const aInput = document.getElementById("a").value;
+      const pInput = document.getElementById("p").value;
+      const output = document.getElementById("output");
+
+      const a = Number(aInput);
+      const p = Number(pInput);
+
+      output.classList.remove("visible");
+      output.style.display = "none";
+
+      if (!Number.isInteger(a) || !Number.isInteger(p) || p < 2 || !isPrime(p) || p % 2 === 0) {
+        output.innerHTML = `<span class="error">Please enter a valid integer a and an odd prime p.</span>`;
+        output.style.display = "block";
+        output.classList.add("visible");
+        return;
+      }
+
+      const apow = modPow(a, (p - 1) / 2, p);
+
+      let legendre;
+      let explanation;
+
+      if (apow === 1n) {
+        legendre = 1;
+        explanation = `${a} is a <strong>quadratic residue</strong> modulo ${p}.`;
+      } else if (apow === BigInt(p - 1)) {
+        legendre = -1;
+        explanation = `${a} is a <strong>quadratic non-residue</strong> modulo ${p}.`;
+      } else {
+        legendre = 0;
+        explanation = `${a} is divisible by ${p}. So (a/p) = 0.`;
+      }
+
+      output.innerHTML = `
+        <div><strong>Legendre Symbol \\( \\left( \\frac{${a}}{${p}} \\right) = ${legendre} \\)</strong></div>
+        <div style="margin-top: 10px;">${explanation}</div>`;
+      MathJax.typeset();
+      output.style.display = "block";
+      setTimeout(() => output.classList.add("visible"), 50);
+    }
+  </script>
+</body>
+</html>

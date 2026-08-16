@@ -1,0 +1,825 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>Math Solver - Create Account</title>
+
+  <link
+    href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&display=swap"
+    rel="stylesheet">
+
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Montserrat', sans-serif;
+      min-height: 100vh;
+
+      display: flex;
+      justify-content: center;
+      align-items: center;
+
+      overflow-y: auto;
+      padding: 20px;
+
+      background: #111;
+    }
+
+    body::before {
+      content: "";
+
+      position: fixed;
+      inset: 0;
+
+      background:
+        linear-gradient(
+          rgba(10, 10, 20, 0.55),
+          rgba(10, 10, 20, 0.65)
+        ),
+        url("ms.jpg");
+
+      background-size: cover;
+      background-position: center;
+
+      z-index: -2;
+    }
+
+    .signup-box {
+      width: 380px;
+      padding: 40px;
+
+      border-radius: 20px;
+
+      background: rgba(255, 255, 255, 0.12);
+
+      border: 1px solid rgba(255, 255, 255, 0.25);
+
+      -webkit-backdrop-filter: blur(15px);
+      backdrop-filter: blur(15px);
+
+      box-shadow:
+        0 0 20px rgba(0, 242, 255, 0.25),
+        0 0 40px rgba(255, 0, 212, 0.15);
+
+      animation: zoomIn 1s ease;
+    }
+
+    h2 {
+      text-align: center;
+      margin-bottom: 30px;
+
+      font-size: 28px;
+
+      background: linear-gradient(
+        90deg,
+        #00f5ff,
+        #008cff,
+        #7a2cff,
+        #ff00d4,
+        #00f5ff
+      );
+
+      background-size: 400% 100%;
+
+      color: transparent;
+
+      -webkit-background-clip: text;
+      background-clip: text;
+
+      animation: mathColors 5s linear infinite;
+    }
+
+    .input-group {
+      position: relative;
+      margin-bottom: 25px;
+    }
+
+    .input-group input {
+      width: 100%;
+
+      padding: 13px 10px;
+
+      background: rgba(255, 255, 255, 0.08);
+
+      border: none;
+
+      border-bottom: 2px solid rgba(255, 255, 255, 0.5);
+
+      border-radius: 5px 5px 0 0;
+
+      color: white;
+
+      font-size: 15px;
+
+      outline: none;
+
+      transition: 0.3s;
+    }
+
+    .input-group input:focus {
+      border-bottom-color: #00f5ff;
+
+      box-shadow:
+        0 5px 15px rgba(0, 245, 255, 0.2);
+    }
+
+    .input-group label {
+      position: absolute;
+
+      left: 10px;
+      top: 50%;
+
+      transform: translateY(-50%);
+
+      color: rgba(255, 255, 255, 0.7);
+
+      font-size: 13px;
+
+      pointer-events: none;
+
+      transition: 0.3s;
+    }
+
+    .input-group input:focus + label,
+    .input-group input:not(:placeholder-shown) + label {
+      top: -9px;
+
+      font-size: 11px;
+
+      color: #00f5ff;
+    }
+
+    /* =========================
+       NORMAL SIGNUP BUTTON
+       ========================= */
+
+    .btn {
+      width: 100%;
+
+      padding: 13px;
+
+      border: none;
+
+      border-radius: 30px;
+
+      background: linear-gradient(
+        90deg,
+        #00f5ff,
+        #008cff,
+        #7a2cff,
+        #ff00d4
+      );
+
+      background-size: 300% 100%;
+
+      color: white;
+
+      font-family: 'Montserrat', sans-serif;
+
+      font-size: 16px;
+
+      font-weight: 600;
+
+      cursor: pointer;
+
+      animation:
+        buttonGradient 4s linear infinite,
+        glowPulse 2s ease-in-out infinite;
+
+      transition: transform 0.3s;
+    }
+
+    .btn:hover {
+      transform: scale(1.04);
+    }
+
+    .btn:disabled {
+      opacity: 0.6;
+      cursor: not-allowed;
+      transform: none;
+    }
+
+    /* =========================
+       OR DIVIDER
+       ========================= */
+
+    .divider {
+      display: flex;
+      align-items: center;
+
+      gap: 12px;
+
+      margin: 22px 0;
+
+      color: rgba(255, 255, 255, 0.65);
+
+      font-size: 12px;
+    }
+
+    .divider::before,
+    .divider::after {
+      content: "";
+
+      flex: 1;
+
+      height: 1px;
+
+      background: rgba(255, 255, 255, 0.25);
+    }
+
+    /* =========================
+       GOOGLE BUTTON STYLE
+       ========================= */
+
+    .google-btn {
+      width: 100%;
+      padding: 13px;
+      border-radius: 30px; /* Matched Create Account rounded edges */
+      border: 1px solid #dadce0;
+      background-color: #ffffff;
+      color: #3c4043;
+      font-family: 'Montserrat', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      font-size: 15px;
+      font-weight: 600;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 12px;
+      box-shadow: 0 1px 2px 0 rgba(60,64,67,0.3), 0 1px 3px 1px rgba(60,64,67,0.15);
+      transition: transform 0.3s, background-color 0.2s, box-shadow 0.2s;
+    }
+
+    .google-btn:hover {
+      background-color: #f8f9fa;
+      border-color: #d2e3fc;
+      box-shadow: 0 1px 3px 0 rgba(60,64,67,0.3), 0 4px 8px 3px rgba(60,64,67,0.15);
+      transform: scale(1.04); /* Matched Create Account hover effect */
+    }
+
+    .google-btn:active {
+      background-color: #f1f3f4;
+      box-shadow: 0 1px 2px 0 rgba(60,64,67,0.3);
+      transform: scale(1);
+    }
+
+    .google-btn:disabled {
+      opacity: 0.6;
+      cursor: not-allowed;
+      box-shadow: none;
+      transform: none;
+    }
+
+    .google-icon {
+      width: 18px;
+      height: 18px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+
+    /* =========================
+       FOOTER
+       ========================= */
+
+    .footer {
+      text-align: center;
+
+      margin-top: 22px;
+
+      font-size: 12px;
+
+      color: rgba(255, 255, 255, 0.7);
+
+      line-height: 2;
+    }
+
+    .footer a {
+      color: #00f5ff;
+
+      text-decoration: none;
+
+      font-weight: 600;
+    }
+
+    .footer a:hover {
+      color: #ff00d4;
+
+      text-shadow:
+        0 0 10px #ff00d4;
+    }
+
+    /* =========================
+       ANIMATIONS
+       ========================= */
+
+    @keyframes zoomIn {
+      from {
+        transform: scale(0.7);
+
+        opacity: 0;
+      }
+
+      to {
+        transform: scale(1);
+
+        opacity: 1;
+      }
+    }
+
+    @keyframes mathColors {
+      0% {
+        background-position: 0% 50%;
+      }
+
+      50% {
+        background-position: 100% 50%;
+      }
+
+      100% {
+        background-position: 0% 50%;
+      }
+    }
+
+    @keyframes buttonGradient {
+      0% {
+        background-position: 0% 50%;
+      }
+
+      50% {
+        background-position: 100% 50%;
+      }
+
+      100% {
+        background-position: 0% 50%;
+      }
+    }
+
+    @keyframes glowPulse {
+      0%,
+      100% {
+        box-shadow:
+          0 0 10px rgba(0, 245, 255, 0.5);
+      }
+
+      50% {
+        box-shadow:
+          0 0 20px rgba(0, 245, 255, 0.7),
+          0 0 35px rgba(255, 0, 212, 0.4);
+      }
+    }
+
+    @media (max-width: 500px) {
+
+      .signup-box {
+        width: 90%;
+
+        padding: 30px;
+      }
+
+    }
+  </style>
+
+  <!-- Supabase -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+</head>
+
+<body>
+
+  <div class="signup-box">
+
+    <h2>Create Account</h2>
+
+
+    <!-- =========================
+         USERNAME
+         ========================= -->
+
+    <div class="input-group">
+
+      <input
+        type="text"
+        id="username"
+        placeholder=" "
+        required>
+
+      <label for="username">
+        Username
+      </label>
+
+    </div>
+
+
+    <!-- =========================
+         EMAIL
+         ========================= -->
+
+    <div class="input-group">
+
+      <input
+        type="email"
+        id="email"
+        placeholder=" "
+        required>
+
+      <label for="email">
+        Email
+      </label>
+
+    </div>
+
+
+    <!-- =========================
+         PASSWORD
+         ========================= -->
+
+    <div class="input-group">
+
+      <input
+        type="password"
+        id="password"
+        placeholder=" "
+        required>
+
+      <label for="password">
+        Password
+      </label>
+
+    </div>
+
+
+    <!-- =========================
+         CONFIRM PASSWORD
+         ========================= -->
+
+    <div class="input-group">
+
+      <input
+        type="password"
+        id="confirmPassword"
+        placeholder=" "
+        required>
+
+      <label for="confirmPassword">
+        Confirm Password
+      </label>
+
+    </div>
+
+
+    <!-- =========================
+         CREATE ACCOUNT
+         ========================= -->
+
+    <button
+      class="btn"
+      id="signupButton">
+
+      Create Account
+
+    </button>
+
+
+    <!-- =========================
+         DIVIDER
+         ========================= -->
+
+    <div class="divider">
+      OR
+    </div>
+
+
+    <!-- =========================
+         GOOGLE SIGNUP
+         ========================= -->
+
+    <button
+      class="google-btn"
+      id="googleSignupButton">
+
+      <span class="google-icon">
+        <svg viewBox="0 0 18 18" width="18" height="18" xmlns="http://www.w3.org/2000/svg">
+          <path fill="#4285F4" d="M17.64 9.2c0-.637-.057-1.251-.164-1.84H9v3.481h4.844c-.209 1.125-.843 2.078-1.796 2.717v2.259h2.908c1.702-1.567 2.684-3.874 2.684-6.617z"/>
+          <path fill="#34A853" d="M9 18c2.43 0 4.467-.806 5.956-2.18l-2.908-2.259c-.806.54-1.837.86-3.048.86-2.344 0-4.328-1.584-5.036-3.711H.957v2.332A8.997 8.997 0 0 0 9 18z"/>
+          <path fill="#FBBC05" d="M3.964 10.71A5.41 5.41 0 0 1 3.682 9c0-.593.102-1.17.282-1.71V4.958H.957A8.996 8.996 0 0 0 0 9c0 1.452.348 2.827.957 4.042l3.007-2.332z"/>
+          <path fill="#EA4335" d="M9 3.58c1.321 0 2.508.454 3.44 1.345l2.582-2.58C13.463.891 11.426 0 9 0 5.482 0 2.458 2.013.957 4.958L3.964 7.29C4.672 5.163 6.656 3.58 9 3.58z"/>
+        </svg>
+      </span>
+
+      Continue with Google
+
+    </button>
+
+
+    <!-- =========================
+         FOOTER
+         ========================= -->
+
+    <div class="footer">
+
+      <p>
+        Already have an account?
+        <a href="login.html">
+          Login
+        </a>
+      </p>
+
+    </div>
+
+  </div>
+
+
+  <!-- Supabase configuration -->
+  <script src="supabase.js"></script>
+
+
+  <script>
+
+    const signupButton =
+      document.getElementById("signupButton");
+
+    const googleSignupButton =
+      document.getElementById("googleSignupButton");
+
+    const googleBtnHtml = `
+      <span class="google-icon">
+        <svg viewBox="0 0 18 18" width="18" height="18" xmlns="http://www.w3.org/2000/svg">
+          <path fill="#4285F4" d="M17.64 9.2c0-.637-.057-1.251-.164-1.84H9v3.481h4.844c-.209 1.125-.843 2.078-1.796 2.717v2.259h2.908c1.702-1.567 2.684-3.874 2.684-6.617z"/>
+          <path fill="#34A853" d="M9 18c2.43 0 4.467-.806 5.956-2.18l-2.908-2.259c-.806.54-1.837.86-3.048.86-2.344 0-4.328-1.584-5.036-3.711H.957v2.332A8.997 8.997 0 0 0 9 18z"/>
+          <path fill="#FBBC05" d="M3.964 10.71A5.41 5.41 0 0 1 3.682 9c0-.593.102-1.17.282-1.71V4.958H.957A8.996 8.996 0 0 0 0 9c0 1.452.348 2.827.957 4.042l3.007-2.332z"/>
+          <path fill="#EA4335" d="M9 3.58c1.321 0 2.508.454 3.44 1.345l2.582-2.58C13.463.891 11.426 0 9 0 5.482 0 2.458 2.013.957 4.958L3.964 7.29C4.672 5.163 6.656 3.58 9 3.58z"/>
+        </svg>
+      </span>
+      Continue with Google
+    `;
+
+
+    /* =========================================
+       NORMAL EMAIL/PASSWORD SIGNUP
+       ========================================= */
+
+    signupButton.addEventListener(
+      "click",
+      async () => {
+
+        const username =
+          document
+            .getElementById("username")
+            .value
+            .trim();
+
+        const email =
+          document
+            .getElementById("email")
+            .value
+            .trim();
+
+        const password =
+          document
+            .getElementById("password")
+            .value;
+
+        const confirmPassword =
+          document
+            .getElementById("confirmPassword")
+            .value;
+
+
+        /* CHECK EMPTY FIELDS */
+
+        if (
+          !username ||
+          !email ||
+          !password ||
+          !confirmPassword
+        ) {
+
+          alert(
+            "Please fill in all fields."
+          );
+
+          return;
+        }
+
+
+        /* CHECK PASSWORD */
+
+        if (
+          password !==
+          confirmPassword
+        ) {
+
+          alert(
+            "Passwords do not match."
+          );
+
+          return;
+        }
+
+
+        /* CHECK PASSWORD LENGTH */
+
+        if (
+          password.length < 6
+        ) {
+
+          alert(
+            "Password must be at least 6 characters."
+          );
+
+          return;
+        }
+
+
+        signupButton.disabled = true;
+
+        signupButton.textContent =
+          "Creating Account...";
+
+
+        try {
+
+          const {
+            data,
+            error
+          } =
+            await supabaseClient.auth.signUp({
+
+              email: email,
+
+              password: password,
+
+              options: {
+
+                data: {
+
+                  username: username,
+
+                  full_name: username
+
+                },
+
+                emailRedirectTo:
+                  window.location.origin +
+                  "/login.html"
+
+              }
+
+            });
+
+
+          if (error) {
+
+            console.error(
+              "Signup error:",
+              error
+            );
+
+            alert(
+              error.message
+            );
+
+            signupButton.disabled =
+              false;
+
+            signupButton.textContent =
+              "Create Account";
+
+            return;
+          }
+
+
+          console.log(
+            "Signup result:",
+            data
+          );
+
+
+          alert(
+            "Account created successfully!\n\n" +
+            "Please check your email and verify your account."
+          );
+
+
+          window.location.href =
+            "login.html";
+
+
+        } catch (err) {
+
+          console.error(
+            "Unexpected signup error:",
+            err
+          );
+
+          alert(
+            "Signup failed: " +
+            err.message
+          );
+
+          signupButton.disabled =
+            false;
+
+          signupButton.textContent =
+            "Create Account";
+
+        }
+
+      }
+    );
+
+
+    /* =========================================
+       GOOGLE SIGNUP / LOGIN
+       ========================================= */
+
+    googleSignupButton.addEventListener(
+      "click",
+      async () => {
+
+        googleSignupButton.disabled =
+          true;
+
+        googleSignupButton.textContent =
+          "Connecting to Google...";
+
+
+        try {
+
+          const {
+            data,
+            error
+          } =
+            await supabaseClient.auth
+              .signInWithOAuth({
+
+                provider: "google",
+
+                options: {
+
+                  redirectTo:
+                    window.location.origin +
+                    "/index.html"
+
+                }
+
+              });
+
+
+          if (error) {
+
+            console.error(
+              "Google signup error:",
+              error
+            );
+
+            alert(
+              "Google sign-in failed: " +
+              error.message
+            );
+
+            googleSignupButton.disabled =
+              false;
+
+            googleSignupButton.innerHTML =
+              googleBtnHtml;
+
+          }
+
+        } catch (err) {
+
+          console.error(
+            "Google OAuth error:",
+            err
+          );
+
+          alert(
+            "Google sign-in failed: " +
+            err.message
+          );
+
+          googleSignupButton.disabled =
+            false;
+
+          googleSignupButton.innerHTML =
+            googleBtnHtml;
+
+        }
+
+      }
+    );
+
+  </script>
+
+</body>
+
+</html>

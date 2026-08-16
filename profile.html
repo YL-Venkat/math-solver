@@ -1,0 +1,1112 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>My Profile - Math Solver</title>
+
+  <link
+    href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&display=swap"
+    rel="stylesheet"
+  >
+
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Montserrat', sans-serif;
+      min-height: 100vh;
+      background: #000;
+      color: white;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 20px 0;
+      overflow-y: auto;
+    }
+
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      background:
+        linear-gradient(
+          rgba(0, 0, 0, 0.55),
+          rgba(0, 0, 0, 0.75)
+        ),
+        url("t.jpg") center / cover no-repeat;
+
+      z-index: -2;
+    }
+
+    .profile-card {
+      width: 450px;
+      max-width: 90%;
+      padding: 40px;
+      border-radius: 22px;
+
+      background: rgba(15, 15, 25, 0.75);
+
+      border: 1px solid rgba(0, 242, 255, 0.35);
+
+      -webkit-backdrop-filter: blur(15px);
+      backdrop-filter: blur(15px);
+
+      box-shadow:
+        0 0 20px rgba(0, 242, 255, 0.25),
+        0 0 50px rgba(255, 0, 212, 0.15);
+
+      text-align: center;
+
+      animation: profileAppear 0.8s ease;
+    }
+
+    @keyframes profileAppear {
+      from {
+        opacity: 0;
+        transform: translateY(30px) scale(0.95);
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+      }
+    }
+
+    .title {
+      font-size: 28px;
+      margin-bottom: 25px;
+
+      background:
+        linear-gradient(
+          90deg,
+          #00f5ff,
+          #7a2cff,
+          #ff00d4,
+          #00f5ff
+        );
+
+      background-size: 300% 100%;
+
+      color: transparent;
+
+      -webkit-background-clip: text;
+      background-clip: text;
+
+      animation: titleColors 5s linear infinite;
+    }
+
+    @keyframes titleColors {
+      0% {
+        background-position: 0% 50%;
+      }
+
+      50% {
+        background-position: 100% 50%;
+      }
+
+      100% {
+        background-position: 0% 50%;
+      }
+    }
+
+    /* =========================
+       AVATAR
+       ========================= */
+
+    .avatar-wrapper {
+      position: relative;
+
+      width: 110px;
+      height: 110px;
+
+      margin: 0 auto 25px;
+    }
+
+    .profile-avatar {
+      width: 100%;
+      height: 100%;
+
+      border-radius: 50%;
+
+      display: flex;
+      justify-content: center;
+      align-items: center;
+
+      font-size: 38px;
+      font-weight: 700;
+
+      color: white;
+
+      background:
+        linear-gradient(
+          135deg,
+          #00f2ff,
+          #7a2cff,
+          #ff00d4
+        );
+
+      border: 3px solid #00f2ff;
+
+      box-shadow:
+        0 0 15px #00f2ff,
+        0 0 35px rgba(255, 0, 212, 0.6);
+
+      object-fit: cover;
+      overflow: hidden;
+
+      background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;
+    }
+
+    .avatar-upload-btn {
+      position: absolute;
+
+      bottom: 0;
+      right: 0;
+
+      background: #00f2ff;
+      color: #000;
+
+      border: none;
+
+      width: 32px;
+      height: 32px;
+
+      border-radius: 50%;
+
+      cursor: pointer;
+
+      font-weight: bold;
+      font-size: 16px;
+
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      box-shadow:
+        0 0 10px rgba(0, 242, 255, 0.8);
+
+      transition: transform 0.2s;
+    }
+
+    .avatar-upload-btn:hover {
+      transform: scale(1.1);
+    }
+
+    #avatarInput {
+      display: none;
+    }
+
+    /* =========================
+       FORM
+       ========================= */
+
+    .info-group {
+      margin-top: 15px;
+      text-align: left;
+    }
+
+    .info-label {
+      font-size: 12px;
+
+      color: #00f2ff;
+
+      margin-bottom: 6px;
+
+      text-transform: uppercase;
+
+      letter-spacing: 1px;
+    }
+
+    .info-input {
+      width: 100%;
+
+      padding: 12px 14px;
+
+      border-radius: 10px;
+
+      background: rgba(255, 255, 255, 0.07);
+
+      border: 1px solid rgba(255, 255, 255, 0.15);
+
+      color: white;
+
+      font-family: 'Montserrat', sans-serif;
+
+      font-size: 14px;
+
+      outline: none;
+
+      transition:
+        border 0.3s,
+        box-shadow 0.3s;
+    }
+
+    .info-input:focus {
+      border-color: #00f2ff;
+
+      box-shadow:
+        0 0 10px rgba(0, 242, 255, 0.3);
+    }
+
+    .info-input[disabled] {
+      background: rgba(255, 255, 255, 0.03);
+
+      color: #888;
+
+      cursor: not-allowed;
+    }
+
+    textarea.info-input {
+      resize: vertical;
+
+      min-height: 70px;
+    }
+
+    /* =========================
+       BUTTONS
+       ========================= */
+
+    .button-group {
+      margin-top: 25px;
+
+      display: flex;
+
+      flex-direction: column;
+
+      gap: 10px;
+    }
+
+    .row-buttons {
+      display: flex;
+
+      gap: 12px;
+    }
+
+    .profile-button {
+      flex: 1;
+
+      padding: 12px;
+
+      border: none;
+
+      border-radius: 25px;
+
+      font-family: 'Montserrat', sans-serif;
+
+      font-weight: 600;
+
+      cursor: pointer;
+
+      transition: 0.3s;
+    }
+
+    .save-btn {
+      background:
+        linear-gradient(
+          90deg,
+          #00f2ff,
+          #7a2cff
+        );
+
+      color: white;
+
+      width: 100%;
+    }
+
+    .home-btn {
+      background:
+        rgba(255, 255, 255, 0.15);
+
+      color: white;
+
+      border:
+        1px solid rgba(255, 255, 255, 0.3);
+    }
+
+    .logout-btn {
+      background:
+        linear-gradient(
+          90deg,
+          #ff0066,
+          #ff00d4
+        );
+
+      color: white;
+    }
+
+    .profile-button:hover {
+      transform: translateY(-2px);
+    }
+
+    .save-btn:hover {
+      box-shadow:
+        0 0 15px rgba(0, 242, 255, 0.6);
+    }
+
+    .logout-btn:hover {
+      box-shadow:
+        0 0 20px rgba(255, 0, 212, 0.7);
+    }
+
+    .profile-button:disabled {
+      opacity: 0.6;
+      cursor: not-allowed;
+      transform: none;
+    }
+
+    /* =========================
+       STATUS
+       ========================= */
+
+    #statusMessage {
+      margin-top: 15px;
+
+      font-size: 13px;
+
+      min-height: 18px;
+    }
+
+    /* =========================
+       MOBILE
+       ========================= */
+
+    @media (max-width: 500px) {
+
+      .profile-card {
+        padding: 30px 20px;
+      }
+
+      .row-buttons {
+        flex-direction: column;
+      }
+
+    }
+  </style>
+</head>
+
+
+<body>
+
+  <div class="profile-card">
+
+    <h1 class="title">
+      My Profile
+    </h1>
+
+
+    <!-- =========================
+         AVATAR
+         ========================= -->
+
+    <div class="avatar-wrapper">
+
+      <div
+        class="profile-avatar"
+        id="avatarDisplay">
+        U
+      </div>
+
+      <button
+        class="avatar-upload-btn"
+        id="uploadTrigger"
+        title="Upload Photo">
+        📷
+      </button>
+
+      <input
+        type="file"
+        id="avatarInput"
+        accept="image/*">
+
+    </div>
+
+
+    <!-- =========================
+         FULL NAME
+         ========================= -->
+
+    <div class="info-group">
+
+      <div class="info-label">
+        Full Name
+      </div>
+
+      <input
+        type="text"
+        class="info-input"
+        id="fullNameInput"
+        placeholder="Enter your full name">
+
+    </div>
+
+
+    <!-- =========================
+         EMAIL
+         ========================= -->
+
+    <div class="info-group">
+
+      <div class="info-label">
+        Email
+      </div>
+
+      <input
+        type="email"
+        class="info-input"
+        id="userEmail"
+        disabled>
+
+    </div>
+
+
+    <!-- =========================
+         BIO
+         ========================= -->
+
+    <div class="info-group">
+
+      <div class="info-label">
+        Bio / About Me
+      </div>
+
+      <textarea
+        class="info-input"
+        id="bioInput"
+        placeholder="Tell us a bit about yourself...">
+      </textarea>
+
+    </div>
+
+
+    <div id="statusMessage"></div>
+
+
+    <!-- =========================
+         BUTTONS
+         ========================= -->
+
+    <div class="button-group">
+
+      <button
+        class="profile-button save-btn"
+        id="saveBtn">
+
+        Save Profile
+
+      </button>
+
+
+      <div class="row-buttons">
+
+        <button
+          class="profile-button home-btn"
+          onclick="window.location.href='index.html'">
+
+          Back to Home
+
+        </button>
+
+
+        <button
+          class="profile-button logout-btn"
+          id="logoutBtn">
+
+          Logout
+
+        </button>
+
+      </div>
+
+    </div>
+
+  </div>
+
+
+  <!-- =========================
+       SUPABASE
+       ========================= -->
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+  <script src="supabase.js"></script>
+
+
+  <script>
+
+    /* =========================
+       ELEMENTS
+       ========================= */
+
+    const avatarDisplay =
+      document.getElementById("avatarDisplay");
+
+    const avatarInput =
+      document.getElementById("avatarInput");
+
+    const uploadTrigger =
+      document.getElementById("uploadTrigger");
+
+    const fullNameInput =
+      document.getElementById("fullNameInput");
+
+    const userEmailInput =
+      document.getElementById("userEmail");
+
+    const bioInput =
+      document.getElementById("bioInput");
+
+    const saveBtn =
+      document.getElementById("saveBtn");
+
+    const logoutBtn =
+      document.getElementById("logoutBtn");
+
+    const statusMessage =
+      document.getElementById("statusMessage");
+
+
+    let selectedBlob = null;
+    let existingAvatarUrl = "";
+
+
+    /* =========================
+       STATUS MESSAGE
+       ========================= */
+
+    function showStatus(text, color) {
+
+      statusMessage.textContent = text;
+
+      statusMessage.style.color = color;
+
+    }
+
+
+    /* =========================
+       SET AVATAR
+       ========================= */
+
+    function setAvatarImage(url) {
+
+      avatarDisplay.textContent = "";
+
+      avatarDisplay.style.backgroundImage =
+        `url("${url}")`;
+
+      avatarDisplay.style.backgroundSize =
+        "cover";
+
+      avatarDisplay.style.backgroundPosition =
+        "center";
+
+      avatarDisplay.style.backgroundRepeat =
+        "no-repeat";
+    }
+
+
+    /* =========================
+       POPULATE PROFILE
+       ========================= */
+
+    function populateProfile(user) {
+
+      if (!user) {
+        return;
+      }
+
+      console.log("Profile user:", user);
+
+
+      /* EMAIL */
+
+      userEmailInput.value =
+        user.email || "";
+
+
+      /* METADATA */
+
+      const metadata =
+        user.user_metadata || {};
+
+
+      /* FULL NAME */
+
+      fullNameInput.value =
+        metadata.full_name || "";
+
+
+      /* BIO */
+
+      bioInput.value =
+        metadata.bio || "";
+
+
+      /* AVATAR */
+
+      if (metadata.avatar_url) {
+
+        existingAvatarUrl =
+          metadata.avatar_url;
+
+        setAvatarImage(
+          metadata.avatar_url
+        );
+
+      } else {
+
+        existingAvatarUrl = "";
+
+        const initial =
+          user.email
+            ? user.email
+                .charAt(0)
+                .toUpperCase()
+            : "U";
+
+        avatarDisplay.textContent =
+          initial;
+
+        avatarDisplay.style.backgroundImage =
+          "none";
+      }
+
+    }
+
+
+    /* =========================
+       INITIALIZE PROFILE
+       ========================= */
+
+    async function initProfile() {
+
+      console.log(
+        "Loading profile..."
+      );
+
+
+      const {
+        data,
+        error
+      } =
+        await supabaseClient.auth.getSession();
+
+
+      console.log(
+        "Session:",
+        data.session
+      );
+
+      console.log(
+        "Session error:",
+        error
+      );
+
+
+      /* SESSION ERROR */
+
+      if (error) {
+
+        console.error(
+          "Session error:",
+          error
+        );
+
+        showStatus(
+          "Unable to load session.",
+          "#ff0066"
+        );
+
+        return;
+      }
+
+
+      /* NO LOGIN */
+
+      if (!data.session) {
+
+        console.log(
+          "No active session."
+        );
+
+        window.location.href =
+          "login.html";
+
+        return;
+      }
+
+
+      /* GET USER FROM SESSION */
+
+      const user =
+        data.session.user;
+
+
+      console.log(
+        "Logged in user:",
+        user
+      );
+
+
+      /* DISPLAY PROFILE */
+
+      populateProfile(user);
+
+    }
+
+
+    /* START */
+
+    initProfile();
+
+
+    /* =========================
+       AVATAR UPLOAD BUTTON
+       ========================= */
+
+    uploadTrigger.addEventListener(
+      "click",
+      function () {
+
+        avatarInput.click();
+
+      }
+    );
+
+
+    /* =========================
+       IMAGE SELECTION WITH CANVAS COMPRESSION
+       ========================= */
+
+    avatarInput.addEventListener(
+      "change",
+      function () {
+
+        const file =
+          this.files[0];
+
+
+        if (!file) {
+          return;
+        }
+
+
+        /* MAX 5 MB INITIALLY */
+
+        if (
+          file.size >
+          5 * 1024 * 1024
+        ) {
+
+          showStatus(
+            "Image must be smaller than 5MB.",
+            "#ff0066"
+          );
+
+          this.value = "";
+
+          return;
+        }
+
+
+        /* COMPRESS & RESIZE VIA CANVAS */
+
+        const reader =
+          new FileReader();
+
+
+        reader.onload =
+          function (e) {
+
+            const img = new Image();
+
+            img.onload = function () {
+
+              const canvas = document.createElement("canvas");
+              const ctx = canvas.getContext("2d");
+
+              const MAX_SIZE = 200;
+              let width = img.width;
+              let height = img.height;
+
+              if (width > height) {
+                if (width > MAX_SIZE) {
+                  height *= MAX_SIZE / width;
+                  width = MAX_SIZE;
+                }
+              } else {
+                if (height > MAX_SIZE) {
+                  width *= MAX_SIZE / height;
+                  height = MAX_SIZE;
+                }
+              }
+
+              canvas.width = width;
+              canvas.height = height;
+
+              ctx.drawImage(img, 0, 0, width, height);
+
+              // Convert canvas to Blob instead of huge Base64 string
+              canvas.toBlob(
+                (blob) => {
+                  selectedBlob = blob;
+                  const previewUrl = URL.createObjectURL(blob);
+                  setAvatarImage(previewUrl);
+                },
+                "image/jpeg",
+                0.6
+              );
+
+            };
+
+            img.src = e.target.result;
+
+          };
+
+
+        reader.readAsDataURL(file);
+
+      }
+    );
+
+
+    /* =========================
+       SAVE PROFILE
+       ========================= */
+
+    saveBtn.addEventListener(
+      "click",
+      async function () {
+
+        saveBtn.disabled = true;
+
+
+        showStatus(
+          "Saving...",
+          "#00f2ff"
+        );
+
+
+        try {
+
+          const {
+            data,
+            error: sessionError
+          } =
+            await supabaseClient.auth
+              .getSession();
+
+
+          if (
+            sessionError ||
+            !data.session
+          ) {
+
+            showStatus(
+              "You are not logged in.",
+              "#ff0066"
+            );
+
+            window.location.href =
+              "login.html";
+
+            return;
+          }
+
+          const user = data.session.user;
+          let finalAvatarUrl = existingAvatarUrl;
+
+          /* UPLOAD TO SUPABASE STORAGE IF NEW IMAGE SELECTED */
+          if (selectedBlob) {
+            const fileName = `${user.id}/avatar.jpg`;
+
+            const { error: uploadError } = await supabaseClient.storage
+              .from("avatars")
+              .upload(fileName, selectedBlob, {
+                contentType: "image/jpeg",
+                upsert: true
+              });
+
+            if (uploadError) {
+              console.warn("Storage upload error:", uploadError);
+              // Fallback to compressed base64 if storage bucket doesn't exist
+              const canvas = document.createElement("canvas");
+              const ctx = canvas.getContext("2d");
+              const img = new Image();
+              img.src = avatarDisplay.style.backgroundImage.slice(5, -2);
+              
+              const reader = new FileReader();
+              reader.readAsDataURL(selectedBlob);
+              await new Promise((resolve) => {
+                reader.onloadend = () => {
+                  finalAvatarUrl = reader.result;
+                  resolve();
+                };
+              });
+            } else {
+              const { data: publicUrlData } = supabaseClient.storage
+                .from("avatars")
+                .getPublicUrl(fileName);
+              
+              finalAvatarUrl = publicUrlData.publicUrl;
+            }
+          }
+
+          /* PREPARE METADATA PAYLOAD */
+
+          const metadataPayload = {
+            full_name: fullNameInput.value.trim(),
+            bio: bioInput.value.trim()
+          };
+
+          if (finalAvatarUrl) {
+            metadataPayload.avatar_url = finalAvatarUrl;
+          }
+
+          const updates = {
+            data: metadataPayload
+          };
+
+
+          console.log(
+            "Saving profile:",
+            updates
+          );
+
+
+          /* UPDATE SUPABASE AUTH METADATA */
+
+          const {
+            data: updatedUser,
+            error
+          } =
+            await supabaseClient.auth
+              .updateUser(updates);
+
+
+          if (error) {
+
+            console.error(
+              "Update error:",
+              error
+            );
+
+            showStatus(
+              "Update failed: " +
+              error.message,
+              "#ff0066"
+            );
+
+            return;
+          }
+
+
+          console.log(
+            "Updated user:",
+            updatedUser
+          );
+
+
+          showStatus(
+            "Profile saved successfully!",
+            "#00ff88"
+          );
+
+
+          if (
+            updatedUser?.user
+              ?.user_metadata
+              ?.avatar_url
+          ) {
+
+            existingAvatarUrl =
+              updatedUser.user
+                .user_metadata
+                .avatar_url;
+
+            setAvatarImage(
+              existingAvatarUrl
+            );
+
+          }
+
+        } catch (err) {
+
+          console.error(
+            "Unexpected error:",
+            err
+          );
+
+          showStatus(
+            "Update failed: " +
+            (err.message ||
+              "Failed to fetch"),
+            "#ff0066"
+          );
+
+        } finally {
+
+          saveBtn.disabled = false;
+
+        }
+
+      }
+    );
+
+
+    /* =========================
+       LOGOUT
+       ========================= */
+
+    logoutBtn.addEventListener(
+      "click",
+      async function () {
+
+        logoutBtn.disabled = true;
+
+        const {
+          error
+        } =
+          await supabaseClient.auth
+            .signOut({
+              scope: "local"
+            });
+
+
+        if (error) {
+
+          console.error(
+            "Logout error:",
+            error
+          );
+
+          alert(
+            "Logout failed: " +
+            error.message
+          );
+
+          logoutBtn.disabled = false;
+
+          return;
+        }
+
+
+        window.location.href =
+          "login.html";
+
+      }
+    );
+
+  </script>
+
+</body>
+
+</html>

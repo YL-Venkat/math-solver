@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Affine Cipher Tool</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: linear-gradient(135deg, #00c9ff, #92fe9d);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+      animation: fadeIn 1.2s ease;
+    }
+    body::before {
+      content: "";
+      background-image: url('p.jpg');
+      background-size: cover;
+      background-repeat: no-repeat;
+      background-position: center center;
+      background-attachment: fixed;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: -2;
+    }
+    .container {
+      background: rgba(255, 255, 255, 0.95);
+      padding: 30px 25px;
+      border-radius: 16px;
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+      text-align: center;
+      width: 400px;
+      position: relative;
+      animation: popIn 0.9s ease-out;
+    }
+    .container::before {
+      content: '';
+      position: absolute;
+      top: -50%;
+      left: -50%;
+      width: 200%;
+      height: 200%;
+      background: radial-gradient(circle, #00c9ff55, transparent 70%);
+      animation: rotateBG 12s linear infinite;
+      z-index: 0;
+      opacity: 0.1;
+    }
+    .container * {
+      position: relative;
+      z-index: 1;
+    }
+    h2 {
+      margin-bottom: 20px;
+      font-size: 24px;
+      color: #333;
+      animation: floatText 3s ease-in-out infinite;
+    }
+    textarea, input, select {
+      width: 100%;
+      padding: 12px;
+      margin: 10px 0;
+      border-radius: 8px;
+      border: 1px solid #ccc;
+      box-sizing: border-box;
+      font-size: 16px;
+      background: #f9f9f9;
+      transition: 0.3s ease;
+    }
+    textarea {
+      resize: none;
+    }
+    input:focus, textarea:focus, select:focus {
+      outline: none;
+      border-color: #00c9ff;
+      box-shadow: 0 0 10px #00c9ff55;
+    }
+    button {
+      width: 100%;
+      padding: 12px;
+      background: linear-gradient(135deg, #00c9ff, #92fe9d);
+      color: #fff;
+      border: none;
+      border-radius: 8px;
+      font-weight: bold;
+      font-size: 16px;
+      cursor: pointer;
+      margin-top: 10px;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+    button:hover {
+      transform: scale(1.05);
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+    }
+    .result {
+      display: none;
+      margin-top: 20px;
+      font-weight: bold;
+      font-size: 16px;
+      color: #333;
+      animation: fadeUp 0.6s ease-in;
+      background: #f3f3f3;
+      padding: 12px;
+      border-radius: 8px;
+      text-align: left;
+      word-wrap: break-word;
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; transform: scale(0.95); }
+      to { opacity: 1; transform: scale(1); }
+    }
+    @keyframes popIn {
+      from { transform: scale(0.8); opacity: 0; }
+      to { transform: scale(1); opacity: 1; }
+    }
+    @keyframes floatText {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-6px); }
+    }
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    @keyframes rotateBG {
+      from { transform: rotate(0deg); }
+      to { transform: rotate(360deg); }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h2>Affine Cipher Tool</h2>
+    <textarea id="sentence" rows="3" placeholder="Enter your sentence..."></textarea>
+    <input id="a" type="number" placeholder="Enter value for a (must be coprime with 26)" />
+    <input id="b" type="number" placeholder="Enter value for b (offset)" />
+    <select id="mode" title="Choose operation mode">
+      <option value="encrypt">Encrypt</option>
+      <option value="decrypt">Decrypt</option>
+    </select>
+    <button onclick="runAffine()">Run Affine Cipher</button>
+    <div id="result" class="result"></div>
+  </div>
+
+  <script>
+    function gcd(a, b) {
+      return b === 0 ? a : gcd(b, a % b);
+    }
+
+    function modInverse(a, m) {
+      a = ((a % m) + m) % m;
+      for (let x = 1; x < m; x++) {
+        if ((a * x) % m === 1) return x;
+      }
+      return null;
+    }
+
+    function affineCipher(str, a, b, mode) {
+      const m = 26;
+      const a_inv = modInverse(a, m);
+      if (!a_inv && mode === "decrypt") return "Invalid: a has no inverse mod 26.";
+
+      return str.split('').map(char => {
+        let code = char.charCodeAt(0);
+        if (char.match(/[a-z]/)) {
+          let x = code - 97;
+          let res = (mode === "encrypt") ? (a * x + b) % m : (a_inv * (x - b + m)) % m;
+          return String.fromCharCode(res + 97);
+        } else if (char.match(/[A-Z]/)) {
+          let x = code - 65;
+          let res = (mode === "encrypt") ? (a * x + b) % m : (a_inv * (x - b + m)) % m;
+          return String.fromCharCode(res + 65);
+        } else {
+          return char;
+        }
+      }).join('');
+    }
+
+    function runAffine() {
+      const sentence = document.getElementById("sentence").value.trim();
+      const a = parseInt(document.getElementById("a").value);
+      const b = parseInt(document.getElementById("b").value);
+      const mode = document.getElementById("mode").value;
+      const resultDiv = document.getElementById("result");
+
+      if (!sentence) {
+        resultDiv.textContent = "Please enter a sentence.";
+        resultDiv.style.display = "block";
+        return;
+      }
+      if (isNaN(a) || isNaN(b)) {
+        resultDiv.textContent = "Please enter valid numbers for a and b.";
+        resultDiv.style.display = "block";
+        return;
+      }
+      if (gcd(a, 26) !== 1) {
+        resultDiv.textContent = "Invalid 'a': must be coprime with 26.";
+        resultDiv.style.display = "block";
+        return;
+      }
+
+      const result = affineCipher(sentence, a, b, mode);
+      resultDiv.innerHTML = `<strong>Result:</strong><br>${result}`;
+      resultDiv.style.display = "block";
+    }
+  </script>
+</body>
+</html>

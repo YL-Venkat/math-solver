@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Modular Exponentiation</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: linear-gradient(135deg, #00c9ff, #92fe9d);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+      animation: fadeIn 1.2s ease;
+    }
+
+    input::placeholder {
+      color: #888;
+      font-style: italic;
+      transition: transform 0.3s ease, opacity 0.3s ease;
+      opacity: 0.9;
+      animation: pulsePlaceholder 3s ease-in-out infinite;
+    }
+
+    input:focus::placeholder {
+      transform: translateX(5px);
+      opacity: 0.5;
+    }
+
+    @keyframes pulsePlaceholder {
+      0% { opacity: 0.6; }
+      50% { opacity: 1; }
+      100% { opacity: 0.6; }
+    }
+
+    .container {
+      background: rgba(255, 255, 255, 0.95);
+      padding: 30px 25px;
+      border-radius: 16px;
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+      text-align: center;
+      width: 360px;
+      position: relative;
+      overflow: hidden;
+      animation: popIn 0.9s ease-out;
+    }
+
+    .container::before {
+      content: '';
+      position: absolute;
+      top: -50%;
+      left: -50%;
+      width: 200%;
+      height: 200%;
+      background: radial-gradient(circle, #00c9ff55, transparent 70%);
+      animation: rotateBG 12s linear infinite;
+      z-index: 0;
+      opacity: 0.1;
+    }
+
+    .container * {
+      position: relative;
+      z-index: 1;
+    }
+
+    h2 {
+      margin-bottom: 20px;
+      font-size: 24px;
+      color: #333;
+      animation: floatText 3s ease-in-out infinite;
+    }
+
+    input[type="number"] {
+      width: 100%;
+      padding: 12px;
+      margin: 12px 0;
+      border-radius: 8px;
+      border: 1px solid #ccc;
+      box-sizing: border-box;
+      font-size: 16px;
+      background: #f9f9f9;
+      transition: 0.3s ease;
+    }
+
+    input:focus {
+      outline: none;
+      border-color: #00c9ff;
+      box-shadow: 0 0 10px #00c9ff55;
+    }
+
+    button {
+      width: 100%;
+      padding: 12px;
+      background: linear-gradient(135deg, #00c9ff, #92fe9d);
+      color: #fff;
+      border: none;
+      border-radius: 8px;
+      font-weight: bold;
+      font-size: 16px;
+      cursor: pointer;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      margin-top: 10px;
+    }
+
+    button:hover {
+      transform: scale(1.05);
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+    }
+
+    .result {
+      display: none;
+      margin-top: 20px;
+      font-weight: bold;
+      font-size: 16px;
+      color: #333;
+      animation: fadeUp 0.6s ease-in;
+      word-wrap: break-word;
+      overflow-x: auto;
+      max-height: 300px;
+      padding: 10px;
+      background: #f3f3f3;
+      border-radius: 8px;
+    }
+
+    .error {
+      color: red;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: scale(0.95); }
+      to { opacity: 1; transform: scale(1); }
+    }
+
+    @keyframes popIn {
+      from { transform: scale(0.8); opacity: 0; }
+      to { transform: scale(1); opacity: 1; }
+    }
+
+    @keyframes floatText {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-6px); }
+    }
+
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    @keyframes rotateBG {
+      from { transform: rotate(0deg); }
+      to { transform: rotate(360deg); }
+    }
+
+    body::before {
+      content: "";
+      background-image: url('p.jpg');
+      background-size: cover;
+      background-repeat: no-repeat;
+      background-position: center center;
+      background-attachment: fixed;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: -2;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h2>Last Digits Of Expansion</h2>
+    <input type="number" id="base" placeholder="Enter base (a)" />
+    <input type="number" id="exponent" placeholder="Enter exponent (n)" />
+    <input type="number" id="lastDigits" placeholder="Enter the number of last digits" />
+    <button onclick="calculateModExp()">Calculate last digits</button>
+    <div id="result" class="result"></div>
+  </div>
+
+  <script>
+    function modExp(a, n, digits) {
+      a = BigInt(a);
+      n = BigInt(n);
+      const modulus = BigInt('1' + '0'.repeat(digits));  // For last N digits
+      let result = 1n;
+      while (n > 0n) {
+        if (n % 2n === 1n) {
+          result = (result * a) % modulus;
+        }
+        a = (a * a) % modulus;
+        n = n / 2n;
+      }
+      return result;
+    }
+
+    function calculateModExp() {
+      const a = document.getElementById("base").value.trim();
+      const n = document.getElementById("exponent").value.trim();
+      const lastDigits = document.getElementById("lastDigits").value.trim();
+      const resultArea = document.getElementById("result");
+
+      if (!a || !n || !lastDigits) {
+        resultArea.style.display = "block";
+        resultArea.innerHTML = `<span class="error">Please enter valid numbers.</span>`;
+        return;
+      }
+
+      resultArea.style.display = "block";
+      resultArea.innerHTML = `Calculating... ⏳`;
+
+      setTimeout(() => {
+        const result = modExp(a, n, lastDigits);
+        const resultString = result.toString();
+        const lastDigitsResult = resultString.padStart(Number(lastDigits), '0').slice(-Number(lastDigits));
+        resultArea.innerHTML = `Result (Last ${lastDigits} digits): <strong>${lastDigitsResult}</strong>`;
+      }, 50);
+    }
+  </script>
+</body>
+</html>

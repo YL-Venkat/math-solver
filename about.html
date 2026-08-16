@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>About</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: linear-gradient(135deg, #00c9ff, #92fe9d);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      animation: fadeIn 1s ease-in-out;
+    }
+
+    body::before {
+      content: "";
+      background-image: url('about.jpg');
+      background-size: cover;
+      background-repeat: no-repeat;
+      background-position: center;
+      background-attachment: fixed;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: -2;
+      filter: brightness(0.8);
+    }
+
+    .container {
+      width: 400px;
+      padding: 30px 25px;
+      background: rgba(255, 255, 255, 0.95);
+      border-radius: 20px;
+      box-shadow: 0 12px 30px rgba(0,0,0,0.15);
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      text-align: center;
+      position: relative;
+    }
+
+    h1 {
+      font-size: 26px;
+      margin-bottom: 18px;
+      color: #333;
+      animation: floatText 3s ease-in-out infinite;
+    }
+
+    .slide {
+      display: none;
+      animation: fadeIn 1s ease-in-out;
+    }
+
+    .slide.active {
+      display: block;
+    }
+
+    p, ul {
+      font-size: 14px;
+      color: #444;
+      line-height: 1.5;
+      margin-bottom: 12px;
+    }
+
+    ul {
+      padding-left: 18px;
+      text-align: left;
+    }
+
+    li {
+      margin-bottom: 6px;
+    }
+
+    .button {
+      padding: 10px 16px;
+      font-size: 14px;
+      background: #00bcd4;
+      color: white;
+      border: none;
+      border-radius: 10px;
+      cursor: pointer;
+      margin-top: 10px;
+      text-decoration: none;
+      display: inline-block;
+    }
+
+    .button:hover {
+      background: #008ea0;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: scale(0.95); }
+      to { opacity: 1; transform: scale(1); }
+    }
+
+    @keyframes floatText {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-5px); }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>About This Project</h1>
+    
+    <div class="slide active">
+      <p><strong>Math Solver</strong> is a clean, fast platform to explore math and crypto tools.</p>
+      <p>Whether you're a student, programmer, or just curious about numbers, our tools provide instant solutions for:</p>
+      <ul>
+        <li>Arithmetic operations and factorials</li>
+        <li>GCD, LCM, and Euler’s Totient (ϕ)</li>
+        <li>Prime number detection and listing</li>
+        <li>Classic ciphers like Caesar, Shift, and Affine</li>
+        <li>Modular exponentiation and Legendre symbols</li>
+        <li>Base conversions (Binary, Decimal, Octal, Hex)</li>
+      </ul>
+    </div>
+
+    <div class="slide">
+      <p>
+        Results are instant — no long explanations, just clean outputs in a smooth, animated UI.</p>
+        <p>
+        Built with HTML, CSS, and JavaScript with responsive design and soft animations.
+      </p>
+      <p>Thanks for visiting — explore, calculate, and enjoy!</p>
+
+    
+      <a href="devs.html" class="button">Know About Developers</a>
+    </div>
+  </div>
+
+  <script>
+    const slides = document.querySelectorAll('.slide');
+    let index = 0;
+
+    function cycleSlides() {
+      setInterval(() => {
+        slides[index].classList.remove('active');
+        index = (index + 1) % slides.length;
+        slides[index].classList.add('active');
+      }, 5000); // every 5 seconds
+    }
+
+    cycleSlides();
+  </script>
+</body>
+</html>

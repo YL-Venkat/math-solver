@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Big Number Arithmetic</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: linear-gradient(135deg, #00c9ff, #92fe9d);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+      animation: fadeIn 1.2s ease;
+    }
+
+    body::before {
+      content: "";
+      background-image: url('p.jpg');
+      background-size: cover;
+      background-repeat: no-repeat;
+      background-position: center center;
+      background-attachment: fixed;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: -2;
+    }
+
+    .container {
+      background: rgba(255, 255, 255, 0.95);
+      padding: 30px 25px;
+      border-radius: 16px;
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+      text-align: center;
+      width: 360px;
+      position: relative;
+      overflow: hidden;
+      animation: popIn 0.9s ease-out;
+    }
+
+    .container::before {
+      content: '';
+      position: absolute;
+      top: -50%;
+      left: -50%;
+      width: 200%;
+      height: 200%;
+      background: radial-gradient(circle, #00c9ff55, transparent 70%);
+      animation: rotateBG 12s linear infinite;
+      z-index: 0;
+      opacity: 0.1;
+    }
+
+    .container * {
+      position: relative;
+      z-index: 1;
+    }
+
+    h2 {
+      margin-bottom: 20px;
+      font-size: 24px;
+      color: #333;
+      animation: floatText 3s ease-in-out infinite;
+    }
+
+    select,
+    input[type="text"] {
+      width: 100%;
+      padding: 12px;
+      margin: 12px 0;
+      border-radius: 8px;
+      border: 1px solid #ccc;
+      font-size: 16px;
+      transition: 0.3s ease;
+      box-sizing: border-box;
+    }
+
+    select:focus,
+    input:focus {
+      outline: none;
+      border-color: #00c9ff;
+      box-shadow: 0 0 10px #00c9ff55;
+    }
+
+    button {
+      width: 100%;
+      padding: 12px;
+      background: linear-gradient(135deg, #00c9ff, #92fe9d);
+      color: #fff;
+      border: none;
+      border-radius: 8px;
+      font-weight: bold;
+      font-size: 16px;
+      cursor: pointer;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    button:hover {
+      transform: scale(1.05);
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+    }
+
+    .result {
+      margin-top: 20px;
+      font-weight: bold;
+      font-size: 18px;
+      color: #333;
+      animation: fadeUp 0.6s ease-in;
+      word-break: break-word;
+      border: 1px solid #ccc;
+      padding: 12px;
+      border-radius: 10px;
+      background-color: #f9f9f9;
+      display: none;
+    }
+
+    .error {
+      color: red;
+    }
+
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+        transform: scale(0.95);
+      }
+
+      to {
+        opacity: 1;
+        transform: scale(1);
+      }
+    }
+
+    @keyframes popIn {
+      from {
+        transform: scale(0.8);
+        opacity: 0;
+      }
+
+      to {
+        transform: scale(1);
+        opacity: 1;
+      }
+    }
+
+    @keyframes floatText {
+      0%, 100% {
+        transform: translateY(0);
+      }
+
+      50% {
+        transform: translateY(-6px);
+      }
+    }
+
+    @keyframes fadeUp {
+      from {
+        opacity: 0;
+        transform: translateY(20px);
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    @keyframes rotateBG {
+      from {
+        transform: rotate(0deg);
+      }
+
+      to {
+        transform: rotate(360deg);
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <div class="container">
+    <h2>Arithmetic-Operations</h2>
+
+    <label for="operation">Choose an operation:</label>
+    <select id="operation">
+      <option value="add">Addition</option>
+      <option value="subtract">Subtraction</option>
+      <option value="multiply">Multiplication</option>
+      <option value="divide">Division</option>
+      <option value="modulus">Modulus</option>
+      <option value="divmod">Division & Modulus</option> 
+    </select>
+
+    <input type="text" id="num1" placeholder="Enter first whole number">
+    <input type="text" id="num2" placeholder="Enter second whole number">
+
+    <button type="button" onclick="solve()">Solve</button>
+
+    <div id="result" class="result"></div>
+  </div>
+
+  <script>
+    function solve() {
+      const operation = document.getElementById("operation").value;
+      const num1Input = document.getElementById("num1").value.trim();
+      const num2Input = document.getElementById("num2").value.trim();
+      const resultArea = document.getElementById("result");
+
+      resultArea.style.display = "none";
+
+      if (!num1Input || !num2Input) {
+        resultArea.innerHTML = `<span class="error">❌ Please enter both numbers.</span>`;
+        resultArea.style.display = "block";
+        return;
+      }
+
+      if (num1Input.includes('.') || num2Input.includes('.')) {
+        resultArea.innerHTML = `<span class="error">❌ Decimals are not supported. Use whole numbers only.</span>`;
+        resultArea.style.display = "block";
+        return;
+      }
+
+      try {
+        const num1 = BigInt(num1Input);
+        const num2 = BigInt(num2Input);
+        let result;
+
+        switch (operation) {
+          case "add":
+            result = num1 + num2;
+            break;
+          case "subtract":
+            result = num1 - num2;
+            break;
+          case "multiply":
+            result = num1 * num2;
+            break;
+          case "divide":
+            result = num2 !== 0n ? num1 / num2 : "❌ Cannot divide by zero";
+            break;
+          case "modulus":
+            result = num2 !== 0n ? num1 % num2 : "❌ Cannot divide by zero";
+            break;
+          case "divmod":
+            if (num2 === 0n) {
+              result = "❌ Cannot divide by zero";
+            } else {
+              const quotient = num1 / num2;
+              const remainder = num1 % num2;
+              result = `Quotient: ${quotient}\nRemainder: ${remainder}`;
+            }
+            break;
+          default:
+            result = "❌ Unknown operation";
+        }
+
+        resultArea.innerHTML = `<strong>✅ Result:</strong><br><pre style="font-family: monospace; font-size: 17px;">${result.toString()}</pre>`;
+        resultArea.style.display = "block";
+      } catch (error) {
+        resultArea.innerHTML = `<span class="error">❌ Invalid input. Please enter valid whole numbers.</span>`;
+        resultArea.style.display = "block";
+      }
+    }
+  </script>
+
+</body>
+
+</html>

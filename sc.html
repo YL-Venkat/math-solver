@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Caesar Cipher Tool</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: linear-gradient(135deg, #00c9ff, #92fe9d);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+      animation: fadeIn 1.2s ease;
+    }
+
+    body::before {
+      content: "";
+      background-image: url('p.jpg');
+      background-size: cover;
+      background-repeat: no-repeat;
+      background-position: center center;
+      background-attachment: fixed;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: -2;
+    }
+
+    .container {
+      background: rgba(255, 255, 255, 0.95);
+      padding: 30px 25px;
+      border-radius: 16px;
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+      text-align: center;
+      width: 400px;
+      position: relative;
+      animation: popIn 0.9s ease-out;
+    }
+
+    .container::before {
+      content: '';
+      position: absolute;
+      top: -50%;
+      left: -50%;
+      width: 200%;
+      height: 200%;
+      background: radial-gradient(circle, #00c9ff55, transparent 70%);
+      animation: rotateBG 12s linear infinite;
+      z-index: 0;
+      opacity: 0.1;
+    }
+
+    .container * {
+      position: relative;
+      z-index: 1;
+    }
+
+    /* visually hidden utility to replace inline style="display:none" */
+    .sr-only {
+      position: absolute !important;
+      width: 1px;
+      height: 1px;
+      padding: 0;
+      margin: -1px;
+      overflow: hidden;
+      clip: rect(0, 0, 0, 0);
+      white-space: nowrap;
+      border: 0;
+    }
+
+    h2 {
+      margin-bottom: 20px;
+      font-size: 24px;
+      color: #333;
+      animation: floatText 3s ease-in-out infinite;
+    }
+
+    textarea, input, select {
+      width: 100%;
+      padding: 12px;
+      margin: 10px 0;
+      border-radius: 8px;
+      border: 1px solid #ccc;
+      box-sizing: border-box;
+      font-size: 16px;
+      background: #f9f9f9;
+      transition: 0.3s ease;
+    }
+
+    textarea {
+      resize: none;
+    }
+
+    input:focus, textarea:focus, select:focus {
+      outline: none;
+      border-color: #00c9ff;
+      box-shadow: 0 0 10px #00c9ff55;
+    }
+
+    button {
+      width: 100%;
+      padding: 12px;
+      background: linear-gradient(135deg, #00c9ff, #92fe9d);
+      color: #fff;
+      border: none;
+      border-radius: 8px;
+      font-weight: bold;
+      font-size: 16px;
+      cursor: pointer;
+      margin-top: 10px;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    button:hover {
+      transform: scale(1.05);
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+    }
+
+    .result {
+      display: none;
+      margin-top: 20px;
+      font-weight: bold;
+      font-size: 16px;
+      color: #333;
+      animation: fadeUp 0.6s ease-in;
+      background: #f3f3f3;
+      padding: 12px;
+      border-radius: 8px;
+      text-align: left;
+      word-wrap: break-word;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: scale(0.95); }
+      to { opacity: 1; transform: scale(1); }
+    }
+
+    @keyframes popIn {
+      from { transform: scale(0.8); opacity: 0; }
+      to { transform: scale(1); opacity: 1; }
+    }
+
+    @keyframes floatText {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-6px); }
+    }
+
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    @keyframes rotateBG {
+      from { transform: rotate(0deg); }
+      to { transform: rotate(360deg); }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h2>Shift Cipher Tool</h2>
+
+    <textarea id="sentence" rows="3" placeholder="Enter your sentence..."></textarea>
+    <input id="shift" type="number" placeholder="Enter shift value (e.g. 5)" />
+    <label for="mode" class="sr-only">Mode</label>
+    <select id="mode" aria-label="Mode">
+      <option value="encrypt">Encrypt</option>
+      <option value="decrypt">Decrypt</option>
+    </select>
+    <button onclick="runCaesar()">Run Shift Cipher</button>
+
+    <div id="result" class="result"></div>
+  </div>
+
+  <script>
+    function caesarCipher(str, shift, mode) {
+      const shiftVal = (mode === "decrypt" ? -shift : shift);
+      return str.split('').map(char => {
+        const code = char.charCodeAt(0);
+
+        if (char.match(/[a-z]/)) {
+          return String.fromCharCode(((code - 97 + shiftVal + 26) % 26) + 97);
+        } else if (char.match(/[A-Z]/)) {
+          return String.fromCharCode(((code - 65 + shiftVal + 26) % 26) + 65);
+        } else {
+          return char; // leave punctuation and spaces unchanged
+        }
+      }).join('');
+    }
+
+    function runCaesar() {
+      const sentence = document.getElementById("sentence").value.trim();
+      const shift = parseInt(document.getElementById("shift").value);
+      const mode = document.getElementById("mode").value;
+      const resultDiv = document.getElementById("result");
+
+      if (!sentence) {
+        resultDiv.textContent = "Please enter a sentence.";
+        resultDiv.style.display = "block";
+        return;
+      }
+
+      if (isNaN(shift)) {
+        resultDiv.textContent = "Please enter a valid shift number.";
+        resultDiv.style.display = "block";
+        return;
+      }
+
+      const result = caesarCipher(sentence, shift, mode);
+      resultDiv.innerHTML = `<strong>Result:</strong><br>${result}`;
+      resultDiv.style.display = "block";
+    }
+  </script>
+</body>
+</html>
