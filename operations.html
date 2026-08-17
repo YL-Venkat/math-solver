@@ -5,6 +5,12 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Math Solver</title>
+
+  <!-- External Auth Libraries & Auth Guard -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="supabase.js"></script>
+  <script src="ag.js"></script>
+
   <style>
     body {
       margin: 0;
@@ -137,7 +143,6 @@
       opacity: 1;
     }
 
-    /* Special case: full-width extra button matching two buttons */
     .extra-button-row {
       max-width: 500px;
       margin: 0 auto;
@@ -244,25 +249,22 @@
     </div>
 
     <div class="button-row">
-        <button class="operation-button" onclick="window.location.href='sc.html'">Shift Cipher</button>
-        <button class="operation-button" onclick="window.location.href='ac.html'">Affine Cipher</button>
-      </div>
+      <button class="operation-button" onclick="window.location.href='sc.html'">Shift Cipher</button>
+      <button class="operation-button" onclick="window.location.href='ac.html'">Affine Cipher</button>
+    </div>
 
-      <div class="button-row">
-        <button class="operation-button" onclick="window.location.href='dc.html'">Digraphic Cipher</button>
-        <button class="operation-button" onclick="window.location.href='ld.html'">Last Digits Of Expansion</button>
-      </div>
-  
+    <div class="button-row">
+      <button class="operation-button" onclick="window.location.href='dc.html'">Digraphic Cipher</button>
+      <button class="operation-button" onclick="window.location.href='ld.html'">Last Digits Of Expansion</button>
+    </div>
+
     <div class="extra-button-row">
       <button class="operation-button" onclick="window.location.href='needmore.html'">Need More</button>
     </div>
 
   </div>
+
+  <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
 </body>
 
 </html>
-
-
-
-<script id="MathJax-script" async
-  src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
