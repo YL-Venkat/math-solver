@@ -1,154 +1,318 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>About</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>About - Math Solver</title>
   <style>
-    body {
-      margin: 0;
-      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-      background: linear-gradient(135deg, #00c9ff, #92fe9d);
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      min-height: 100vh;
-      animation: fadeIn 1s ease-in-out;
+    :root {
+      --primary-gradient: linear-gradient(90deg, #00a8cc, #0072ff, #7a2cff, #d900a8);
+      --accent-blue: #007b9e;
+      --bg-dark: #111111;
+      --card-bg: rgba(255, 255, 255, 0.95);
+      --section-bg: rgba(245, 248, 250, 0.9);
+      --text-main: #222222;
+      --text-muted: #444444;
+      --radius-large: 24px;
+      --radius-medium: 16px;
+      --radius-small: 10px;
     }
-
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    html {
+      scroll-behavior: smooth;
+    }
+    body {
+      font-family: 'Segoe UI', system-ui, -apple-system, BlinkMacSystemFont, Roboto, sans-serif;
+      min-height: 100vh;
+      background-color: var(--bg-dark);
+      color: var(--text-main);
+      animation: fadeIn 0.8s ease-in-out;
+    }
     body::before {
       content: "";
-      background-image: url('about.jpg');
-      background-size: cover;
-      background-repeat: no-repeat;
-      background-position: center;
-      background-attachment: fixed;
       position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
+      inset: 0;
+      background: linear-gradient(rgba(10, 10, 20, 0.6), rgba(10, 10, 20, 0.75)),
+                  url('about.jpg') center/cover no-repeat fixed;
       z-index: -2;
-      filter: brightness(0.8);
+      filter: brightness(0.9);
     }
-
-    .container {
-      width: 400px;
-      padding: 30px 25px;
-      background: rgba(255, 255, 255, 0.95);
-      border-radius: 20px;
-      box-shadow: 0 12px 30px rgba(0,0,0,0.15);
-      overflow: hidden;
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
+    main.container {
+      width: min(900px, 92%);
+      margin: 50px auto;
+      padding: 45px 40px;
+      background: var(--card-bg);
+      border-radius: var(--radius-large);
+      box-shadow: 0 15px 40px rgba(0, 0, 0, 0.25);
+      -webkit-backdrop-filter: blur(12px);
+      backdrop-filter: blur(12px);
+      animation: slideUp 0.8s ease;
+    }
+    header {
       text-align: center;
-      position: relative;
+      margin-bottom: 40px;
     }
-
-    h1 {
-      font-size: 26px;
-      margin-bottom: 18px;
-      color: #333;
-      animation: floatText 3s ease-in-out infinite;
+    header h1 {
+      font-size: clamp(30px, 5vw, 42px);
+      margin-bottom: 12px;
+      background: var(--primary-gradient);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
     }
-
-    .slide {
-      display: none;
-      animation: fadeIn 1s ease-in-out;
+    header p {
+      color: var(--text-muted);
+      font-size: 1.05rem;
+      line-height: 1.6;
     }
-
-    .slide.active {
-      display: block;
+    section.card {
+      margin-bottom: 35px;
+      padding: 28px;
+      border-radius: var(--radius-medium);
+      background: var(--section-bg);
+      border: 1px solid rgba(0, 0, 0, 0.06);
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
     }
-
-    p, ul {
-      font-size: 14px;
-      color: #444;
-      line-height: 1.5;
+    section.card:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 8px 25px rgba(0, 0, 0, 0.08);
+    }
+    section.card h2 {
+      font-size: 1.45rem;
+      margin-bottom: 14px;
+      color: var(--text-main);
+    }
+    section.card p {
+      font-size: 0.95rem;
+      color: var(--text-muted);
+      line-height: 1.7;
       margin-bottom: 12px;
     }
-
-    ul {
-      padding-left: 18px;
-      text-align: left;
+    section.card p:last-child {
+      margin-bottom: 0;
     }
-
-    li {
-      margin-bottom: 6px;
+    .feature-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 16px;
+      margin-top: 18px;
     }
-
+    .feature {
+      padding: 20px;
+      border-radius: var(--radius-medium);
+      background: #ffffff;
+      border: 1px solid #e5e5e5;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+    .feature:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
+    }
+    .feature h3 {
+      font-size: 1.05rem;
+      margin-bottom: 8px;
+      color: var(--accent-blue);
+    }
+    .feature p {
+      font-size: 0.88rem;
+      margin: 0;
+      line-height: 1.5;
+    }
+    .tech-list {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 15px;
+      list-style: none;
+    }
+    .tech {
+      padding: 8px 16px;
+      border-radius: 20px;
+      background: #e9faff;
+      color: var(--accent-blue);
+      font-size: 0.85rem;
+      font-weight: 600;
+      border: 1px solid #c8f2fa;
+    }
+    .developer {
+      text-align: center;
+      padding: 30px;
+      background: linear-gradient(135deg, rgba(0, 201, 255, 0.08), rgba(146, 254, 157, 0.08));
+      border-radius: var(--radius-medium);
+    }
+    .developer-icon {
+      width: 75px;
+      height: 75px;
+      margin: 0 auto 15px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.75rem;
+      font-weight: bold;
+      color: #ffffff;
+      background: linear-gradient(135deg, #00bcd4, #7a2cff);
+      box-shadow: 0 5px 20px rgba(0, 188, 212, 0.3);
+    }
+    .developer h3 {
+      font-size: 1.3rem;
+      margin-bottom: 10px;
+    }
+    .future-list {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 12px;
+      margin-top: 15px;
+      list-style: none;
+    }
+    .future-list li {
+      padding: 14px 18px;
+      background: #ffffff;
+      border-radius: var(--radius-small);
+      border-left: 4px solid #00bcd4;
+      font-size: 0.9rem;
+      color: var(--text-muted);
+      font-weight: 500;
+    }
+    .button-area {
+      text-align: center;
+      margin-top: 35px;
+    }
     .button {
-      padding: 10px 16px;
-      font-size: 14px;
-      background: #00bcd4;
-      color: white;
+      padding: 12px 28px;
+      font-size: 0.95rem;
+      background: linear-gradient(90deg, #00bcd4, #007bff);
+      color: #ffffff;
       border: none;
-      border-radius: 10px;
-      cursor: pointer;
-      margin-top: 10px;
+      border-radius: 25px;
       text-decoration: none;
       display: inline-block;
+      font-weight: 600;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      box-shadow: 0 5px 15px rgba(0, 123, 255, 0.25);
     }
-
     .button:hover {
-      background: #008ea0;
+      transform: translateY(-2px);
+      box-shadow: 0 8px 20px rgba(0, 123, 255, 0.35);
     }
-
+    footer {
+      text-align: center;
+      margin-top: 30px;
+      padding-top: 20px;
+      border-top: 1px solid #dddddd;
+      color: #777777;
+      font-size: 0.8rem;
+    }
     @keyframes fadeIn {
-      from { opacity: 0; transform: scale(0.95); }
-      to { opacity: 1; transform: scale(1); }
+      from { opacity: 0; }
+      to { opacity: 1; }
     }
-
-    @keyframes floatText {
-      0%, 100% { transform: translateY(0); }
-      50% { transform: translateY(-5px); }
+    @keyframes slideUp {
+      from {
+        opacity: 0;
+        transform: translateY(30px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+    @media (max-width: 650px) {
+      main.container {
+        padding: 30px 20px;
+        margin: 20px auto;
+      }
     }
   </style>
 </head>
 <body>
-  <div class="container">
-    <h1>About This Project</h1>
-    
-    <div class="slide active">
-      <p><strong>Math Solver</strong> is a clean, fast platform to explore math and crypto tools.</p>
-      <p>Whether you're a student, programmer, or just curious about numbers, our tools provide instant solutions for:</p>
-      <ul>
-        <li>Arithmetic operations and factorials</li>
-        <li>GCD, LCM, and Euler’s Totient (ϕ)</li>
-        <li>Prime number detection and listing</li>
-        <li>Classic ciphers like Caesar, Shift, and Affine</li>
-        <li>Modular exponentiation and Legendre symbols</li>
-        <li>Base conversions (Binary, Decimal, Octal, Hex)</li>
-      </ul>
-    </div>
-
-    <div class="slide">
+  <main class="container">
+    <header>
+      <h1>About Math Solver</h1>
+      <p>A simple and interactive web platform for exploring mathematical and cryptographic tools.</p>
+    </header>
+    <section class="card">
+      <h2>What is Math Solver?</h2>
       <p>
-        Results are instant — no long explanations, just clean outputs in a smooth, animated UI.</p>
-        <p>
-        Built with HTML, CSS, and JavaScript with responsive design and soft animations.
+        <strong>Math Solver</strong> is a web-based platform designed to make common mathematical and cryptographic operations quick and easy to perform.
       </p>
-      <p>Thanks for visiting — explore, calculate, and enjoy!</p>
-
-    
-      <a href="devs.html" class="button">Know About Developers</a>
+      <p>
+        The project brings frequently used mathematical tools into one place, allowing students, programmers, and mathematics enthusiasts to calculate and explore different concepts through a simple and interactive interface.
+      </p>
+    </section>
+    <section class="card">
+      <h2>What Can You Do?</h2>
+      <div class="feature-grid">
+        <article class="feature">
+          <h3>Mathematical Tools</h3>
+          <p>Arithmetic operations, factorials, GCD, LCM, Euler's Totient, prime number tools and more.</p>
+        </article>
+        <article class="feature">
+          <h3>Number Conversions</h3>
+          <p>Convert between Binary, Decimal, Octal and Hexadecimal number systems.</p>
+        </article>
+        <article class="feature">
+          <h3>Cryptographic Tools</h3>
+          <p>Explore Caesar, Shift and Affine ciphers, modular exponentiation and Legendre symbols.</p>
+        </article>
+        <article class="feature">
+          <h3>Interactive Experience</h3>
+          <p>Get quick results through a clean interface with responsive design and smooth animations.</p>
+        </article>
+      </div>
+    </section>
+    <section class="card">
+      <h2>Technology</h2>
+      <p>Math Solver is built using modern web technologies with authentication and cloud services for user account functionality.</p>
+      <ul class="tech-list">
+        <li class="tech">HTML5</li>
+        <li class="tech">CSS3</li>
+        <li class="tech">JavaScript</li>
+        <li class="tech">Supabase</li>
+        <li class="tech">Google Auth</li>
+        <li class="tech">Vercel</li>
+      </ul>
+    </section>
+    <section class="card">
+      <h2>Developer</h2>
+      <div class="developer">
+        <div class="developer-icon">LV</div>
+        <h3>Developed by Lakshmi Venkat</h3>
+        <p>
+          Responsible for the overall development of Math Solver, including frontend integration, mathematical logic, algorithms, debugging, optimization, responsive design, authentication and project implementation.
+        </p>
+      </div>
+    </section>
+    <section class="card">
+      <h2>What's Coming Next?</h2>
+      <p>Math Solver is continuously being expanded with new mathematical and cryptographic capabilities.</p>
+      <ul class="future-list">
+        <li>RSA Encryption & Decryption</li>
+        <li>Interactive Graph Plotter</li>
+        <li>Matrix Solver & Visualizer</li>
+        <li>Complex Number Calculator</li>
+      </ul>
+    </section>
+    <section class="card">
+      <h2>Our Goal</h2>
+      <p>
+        The goal of Math Solver is to bring useful mathematical and cryptographic tools together in one accessible platform while keeping the experience simple, fast and easy to use.
+      </p>
+      <p>
+        Whether you're solving a quick calculation, learning a mathematical concept, or experimenting with cryptographic operations, Math Solver aims to provide the tools you need in one place.
+      </p>
+    </section>
+    <div class="button-area">
+      <a href="index.html" class="button">&larr; Back to Home</a>
     </div>
-  </div>
+    <footer>
+      Math Solver &copy; 2026
+    </footer>
 
-  <script>
-    const slides = document.querySelectorAll('.slide');
-    let index = 0;
-
-    function cycleSlides() {
-      setInterval(() => {
-        slides[index].classList.remove('active');
-        index = (index + 1) % slides.length;
-        slides[index].classList.add('active');
-      }, 5000); // every 5 seconds
-    }
-
-    cycleSlides();
-  </script>
+  </main>
 </body>
 </html>
