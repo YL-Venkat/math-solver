@@ -11,8 +11,9 @@
       display: flex;
       justify-content: center;
       align-items: center;
-      height: 100vh;
+      min-height: 100vh;
       margin: 0;
+      overflow-x: hidden;
       animation: fadeIn 1.2s ease;
     }
 
@@ -91,19 +92,34 @@
     }
 
     button {
-      width: 100%;
-      padding: 12px;
-      background: linear-gradient(135deg, #00c9ff, #92fe9d);
-      color: #fff;
-      border: none;
-      border-radius: 8px;
-      font-weight: bold;
-      font-size: 16px;
-      cursor: pointer;
-      transition: transform 0.3s ease, box-shadow 0.3s ease;
-      margin-top: 10px;
-    }
+  width: 100%;
+  padding: 12px;
+  background: linear-gradient(135deg, #00c9ff, #92fe9d);
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  font-weight: bold;
+  font-size: 19px; /* Increased base text size */
+  cursor: pointer;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  margin-top: 10px;
+  display: block;
+  text-align: center;
+}
 
+button sup {
+  font-size: 0.65em; /* Scaled relative to the larger text */
+  position: relative;
+  top: -0.45em; /* Keeps superscript properly elevated at larger size */
+  line-height: 0;
+}
+
+button i {
+  font-family: 'Georgia', 'Times New Roman', serif;
+  font-style: italic;
+  font-weight: normal;
+  font-size: 1.1em; /* Makes the math variables 'a', 'n', and 'b' stand out more */
+}
     button:hover {
       transform: scale(1.05);
       box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
@@ -175,7 +191,7 @@
     <input type="number" id="base" placeholder="Enter base (a)" />
     <input type="number" id="exponent" placeholder="Enter exponent (n)" />
     <input type="number" id="modulus" placeholder="Enter modulus (b)" />
-    <button onclick="calculateModExp()">Calculate a^n mod b</button>
+   <button onclick="calculateModExp()">Calculate <i>a</i><sup><i>n</i></sup> mod <i>b</i></button>
     <div id="result" class="result"></div>
   </div>
 
