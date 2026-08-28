@@ -99,7 +99,7 @@
   border: none;
   border-radius: 8px;
   font-weight: bold;
-  font-size: 19px; /* Increased base text size */
+  font-size: 19px;
   cursor: pointer;
   transition: transform 0.3s ease, box-shadow 0.3s ease;
   margin-top: 10px;
@@ -108,17 +108,16 @@
 }
 
 button sup {
-  font-size: 0.65em; /* Scaled relative to the larger text */
+  font-size: 0.65em;
   position: relative;
-  top: -0.45em; /* Keeps superscript properly elevated at larger size */
+  top: -0.45em;
   line-height: 0;
 }
 
 button i {
-  font-family: 'Georgia', 'Times New Roman', serif;
-  font-style: italic;
-  font-weight: normal;
-  font-size: 1.1em; /* Makes the math variables 'a', 'n', and 'b' stand out more */
+  font-family: inherit;
+  font-style: normal;
+  font-weight: bold;
 }
     button:hover {
       transform: scale(1.05);
