@@ -7,6 +7,7 @@ body {
   padding: 0;
   background-color: #f4f4f4;
   position: relative;
+  overflow-x: hidden;
 }
 /* =========================================
    BACKGROUND
@@ -95,6 +96,10 @@ nav a {
     color 0.3s ease,
     transform 0.3s ease;
 }
+nav a:focus-visible {
+  outline: 2px solid #00f2ff;
+  outline-offset: 2px;
+}
 nav a:nth-child(1) {
   animation-delay: 0.5s;
 }
@@ -138,6 +143,10 @@ nav a:hover {
     box-shadow 0.3s;
   white-space: nowrap;
 }
+.login-btn:focus-visible {
+  outline: 2px solid white;
+  outline-offset: 2px;
+}
 .login-btn:hover {
   transform: scale(1.1);
   box-shadow:
@@ -176,6 +185,10 @@ nav a:hover {
   transition:
     transform 0.3s ease,
     box-shadow 0.3s ease;
+}
+.profile-btn:focus-visible {
+  outline: 2px solid white;
+  outline-offset: 2px;
 }
 .profile-btn:hover {
   transform: scale(1.1);
@@ -277,17 +290,20 @@ footer p {
 /* =========================================
    PI-BOT
 ========================================= */
-/* =========================================
-   BOT CONTAINER
-========================================= */
 .help-bot {
   position: fixed;
   right: 25px;
   bottom: 75px;
   z-index: 9999;
   font-family: "Montserrat", sans-serif;
-  /* Rectangular Orbit Animation */
   animation: rectangleOrbit 6s ease-in-out forwards;
+}
+/* Skip orbit animation for returning session visits */
+.help-bot.skip-orbit {
+  animation: none !important;
+}
+.skip-orbit .bot-intro {
+  display: none !important;
 }
 /* =========================================
    AUTOMATIC WELCOME MESSAGE
@@ -320,7 +336,6 @@ footer p {
     botIntroDisappear 0.7s ease 11.2s forwards;
   pointer-events: none;
 }
-/* Little triangle under speech bubble */
 .bot-intro::after {
   content: "";
   position: absolute;
@@ -363,6 +378,10 @@ footer p {
     transform 0.3s ease,
     box-shadow 0.3s ease;
 }
+.bot-button:focus-visible {
+  outline: 2px solid white;
+  outline-offset: 2px;
+}
 .bot-button:hover {
   transform: scale(1.1);
   box-shadow:
@@ -372,7 +391,6 @@ footer p {
 .bot-button.hidden {
   display: none;
 }
-/* Downthrust thruster glow under drone */
 .bot-button::before {
   content: "";
   position: absolute;
@@ -544,6 +562,10 @@ footer p {
     background 0.2s ease,
     color 0.2s ease;
 }
+.bot-close:focus-visible {
+  outline: 2px solid #00f2ff;
+  outline-offset: 2px;
+}
 .bot-close:hover {
   background: rgba(255, 255, 255, 0.1);
   color: white;
@@ -638,6 +660,10 @@ footer p {
     border 0.2s ease,
     transform 0.2s ease;
 }
+.bot-questions button:focus-visible {
+  outline: 2px solid #00f2ff;
+  outline-offset: 2px;
+}
 .bot-questions button:hover {
   background: rgba(0, 242, 255, 0.13);
   border-color: #00f2ff;
@@ -694,11 +720,7 @@ footer p {
     background-position: 0% 50%;
   }
 }
-/* =========================================
-   RECTANGULAR CORNER-TO-CORNER FLY-IN
-========================================= */
 @keyframes rectangleOrbit {
-  /* Starts at Bottom Right */
   0% {
     opacity: 0;
     transform: translate(0, 0) rotate(0deg);
@@ -706,25 +728,20 @@ footer p {
   5% {
     opacity: 1;
   }
-  /* Moves to Bottom Left */
   25% {
     transform: translate(calc(-100vw + 110px), 0) rotate(-10deg);
   }
-  /* Moves to Upper-Left (clears the header bar height) */
   50% {
     transform: translate(calc(-100vw + 110px), calc(-100vh + 260px)) rotate(5deg);
   }
-  /* Moves to Upper-Right (clears the header bar height) */
   75% {
     transform: translate(0, calc(-100vh + 260px)) rotate(-5deg);
   }
-  /* Returns to Bottom Right hover position */
   100% {
     opacity: 1;
     transform: translate(0, 0) rotate(0deg);
   }
 }
-/* Downthrust Air Discharge Effect */
 @keyframes droneDownthrust {
   0% {
     opacity: 0;
@@ -736,9 +753,6 @@ footer p {
     opacity: 0;
   }
 }
-/* =========================================
-   REALISTIC HOVER WOBBLE
-========================================= */
 @keyframes botIdleFloat {
   0% {
     transform: translateY(0px) rotate(0deg);
@@ -759,9 +773,6 @@ footer p {
     transform: translateY(0px) rotate(0deg);
   }
 }
-/* =========================================
-   WELCOME MESSAGE APPEAR / DISAPPEAR
-========================================= */
 @keyframes botIntroAppear {
   0% {
     opacity: 0;
@@ -794,9 +805,6 @@ footer p {
       scale(0.9);
   }
 }
-/* =========================================
-   NOTIFICATION PULSE
-========================================= */
 @keyframes botPulse {
   0% {
     box-shadow:
@@ -814,9 +822,6 @@ footer p {
       rgba(255, 0, 102, 0);
   }
 }
-/* =========================================
-   MESSAGE APPEAR
-========================================= */
 @keyframes messageAppear {
   from {
     opacity: 0;
@@ -845,6 +850,14 @@ footer p {
   .profile-dropdown {
     right: -10px;
   }
+   /* Skip orbit animation for returning session visits */
+.help-bot.skip-orbit {
+  animation: none !important;
+}
+/* Also instantly show intro or keep it hidden on return visits if preferred */
+.skip-orbit .bot-intro {
+  display: none !important;
+}
 }
 /* =========================================
    MOBILE
@@ -920,4 +933,12 @@ footer p {
     font-size: 11px;
     right: 0;
   }
+  /* Skip orbit animation for returning session visits */
+.help-bot.skip-orbit {
+  animation: none !important;
+}
+/* Also instantly show intro or keep it hidden on return visits if preferred */
+.skip-orbit .bot-intro {
+  display: none !important;
+}
 }
