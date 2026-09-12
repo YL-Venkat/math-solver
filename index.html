@@ -345,17 +345,32 @@
       const botIntro = document.getElementById("botIntro");
       const botNotification = document.getElementById("botNotification");
       /* =========================================
+         PI-BOT FIRST VISIT ONLY
+      ========================================= */
+      const helpBotElement = document.getElementById("helpBot");
+      const isPiBotReturningVisit =
+        sessionStorage.getItem("piBotHasVisited") === "true";
+      if (helpBotElement && isPiBotReturningVisit) {
+        helpBotElement.classList.add("skip-orbit");
+      } else if (helpBotElement) {
+        sessionStorage.setItem("piBotHasVisited", "true");
+      }
+      /* =========================================
          AUTOMATIC INTRO MESSAGE
       ========================================= */
       let introTimer;
       function hideBotIntro() {
         if (botIntro) {
-          botIntro.style.animation = "botIntroDisappear 0.5s ease forwards";
+          botIntro.style.animation =
+            "botIntroDisappear 0.5s ease forwards";
         }
       }
-      introTimer = setTimeout(() => {
-        hideBotIntro();
-      }, 7500);
+      /* Only start the intro timer on the first visit */
+      if (!isPiBotReturningVisit) {
+        introTimer = setTimeout(() => {
+          hideBotIntro();
+        }, 7500);
+      }
       /* =========================================
          OPEN PI-BOT
       ========================================= */
@@ -501,17 +516,6 @@
           }, 400);
         });
       });
-      /* =========================================
-      SESSION STORAGE ANIMATION CHECK
-      ========================================= */
-      const helpBotElement = document.getElementById("helpBot");
-      if (helpBotElement) {
-        if (sessionStorage.getItem("piBotHasVisited")) {
-          helpBotElement.classList.add("skip-orbit");
-        } else {
-          sessionStorage.setItem("piBotHasVisited", "true");
-        }
-      }
       /* =========================================
          BOT BUTTON KEYBOARD SUPPORT
       ========================================= */
