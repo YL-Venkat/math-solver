@@ -298,12 +298,28 @@ footer p {
   font-family: "Montserrat", sans-serif;
   animation: rectangleOrbit 6s ease-in-out forwards;
 }
-/* Skip orbit animation for returning session visits */
+/* Returning session visits - no startup animation */
 .help-bot.skip-orbit {
   animation: none !important;
+  transform: none !important;
+  opacity: 1 !important;
 }
-.skip-orbit .bot-intro {
+
+/* No welcome bubble on returning visits */
+.help-bot.skip-orbit .bot-intro {
   display: none !important;
+  animation: none !important;
+}
+
+/* No notification on returning visits */
+.help-bot.skip-orbit .bot-notification {
+  display: none !important;
+}
+
+/* No startup thrust animation on returning visits */
+.help-bot.skip-orbit .bot-button::before {
+  animation: none !important;
+  opacity: 0 !important;
 }
 /* =========================================
    AUTOMATIC WELCOME MESSAGE
@@ -850,14 +866,7 @@ footer p {
   .profile-dropdown {
     right: -10px;
   }
-   /* Skip orbit animation for returning session visits */
-.help-bot.skip-orbit {
-  animation: none !important;
-}
-/* Also instantly show intro or keep it hidden on return visits if preferred */
-.skip-orbit .bot-intro {
-  display: none !important;
-}
+
 }
 /* =========================================
    MOBILE
@@ -933,12 +942,5 @@ footer p {
     font-size: 11px;
     right: 0;
   }
-  /* Skip orbit animation for returning session visits */
-.help-bot.skip-orbit {
-  animation: none !important;
-}
-/* Also instantly show intro or keep it hidden on return visits if preferred */
-.skip-orbit .bot-intro {
-  display: none !important;
-}
+
 }
