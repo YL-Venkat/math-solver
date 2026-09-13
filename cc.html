@@ -15,7 +15,6 @@
       margin: 0;
       animation: fadeIn 1.2s ease;
     }
-
     body::before {
       content: "";
       background-image: url('p.jpg');
@@ -30,7 +29,6 @@
       height: 100%;
       z-index: -2;
     }
-
     .container {
       background: rgba(255, 255, 255, 0.95);
       padding: 30px 25px;
@@ -41,7 +39,6 @@
       position: relative;
       animation: popIn 0.9s ease-out;
     }
-
     .container::before {
       content: '';
       position: absolute;
@@ -54,19 +51,16 @@
       z-index: 0;
       opacity: 0.1;
     }
-
     .container * {
       position: relative;
       z-index: 1;
     }
-
     h2 {
       margin-bottom: 20px;
       font-size: 24px;
       color: #333;
       animation: floatText 3s ease-in-out infinite;
     }
-
     textarea, select {
       width: 100%;
       padding: 12px;
@@ -78,17 +72,14 @@
       background: #f9f9f9;
       transition: 0.3s ease;
     }
-
     textarea {
       resize: none;
     }
-
     textarea:focus, select:focus {
       outline: none;
       border-color: #00c9ff;
       box-shadow: 0 0 10px #00c9ff55;
     }
-
     button {
       width: 100%;
       padding: 12px;
@@ -102,12 +93,10 @@
       margin-top: 10px;
       transition: transform 0.3s ease, box-shadow 0.3s ease;
     }
-
     button:hover {
       transform: scale(1.05);
       box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
     }
-
     .result {
       display: none;
       margin-top: 20px;
@@ -121,27 +110,22 @@
       text-align: left;
       word-wrap: break-word;
     }
-
     @keyframes fadeIn {
       from { opacity: 0; transform: scale(0.95); }
       to { opacity: 1; transform: scale(1); }
     }
-
     @keyframes popIn {
       from { transform: scale(0.8); opacity: 0; }
       to { transform: scale(1); opacity: 1; }
     }
-
     @keyframes floatText {
       0%, 100% { transform: translateY(0); }
       50% { transform: translateY(-6px); }
     }
-
     @keyframes fadeUp {
       from { opacity: 0; transform: translateY(20px); }
       to { opacity: 1; transform: translateY(0); }
     }
-
     @keyframes rotateBG {
       from { transform: rotate(0deg); }
       to { transform: rotate(360deg); }
@@ -151,7 +135,6 @@
 <body>
   <div class="container">
     <h2>Caesar Cipher Tool</h2>
-
     <textarea id="sentence" rows="3" placeholder="Enter your sentence..."></textarea>
     <!-- Shift input removed -->
     <select id="mode" title="Select cipher mode">
@@ -159,16 +142,13 @@
       <option value="decrypt">Decrypt</option>
     </select>
     <button onclick="runCaesar()">Run Caesar Cipher</button>
-
     <div id="result" class="result"></div>
   </div>
-
   <script>
     function caesarCipher(str, shift, mode) {
       const shiftVal = (mode === "decrypt" ? -shift : shift);
       return str.split('').map(char => {
         const code = char.charCodeAt(0);
-
         if (char.match(/[a-z]/)) {
           return String.fromCharCode(((code - 97 + shiftVal + 26) % 26) + 97);
         } else if (char.match(/[A-Z]/)) {
@@ -178,19 +158,16 @@
         }
       }).join('');
     }
-
     function runCaesar() {
       const sentence = document.getElementById("sentence").value.trim();
       const shift = 3; // Fixed shift value
       const mode = document.getElementById("mode").value;
       const resultDiv = document.getElementById("result");
-
       if (!sentence) {
         resultDiv.textContent = "Please enter a sentence.";
         resultDiv.style.display = "block";
         return;
       }
-
       const result = caesarCipher(sentence, shift, mode);
       resultDiv.innerHTML = `<strong>Result:</strong><br>${result}`;
       resultDiv.style.display = "block";

@@ -8,7 +8,6 @@
     * {
       box-sizing: border-box;
     }
-
     body {
       margin: 0;
       background: black;
@@ -20,14 +19,12 @@
       align-items: center;
       height: 100vh;
     }
-
     canvas {
       position: fixed;
       top: 0;
       left: 0;
       z-index: 0;
     }
-
     .content {
       position: relative;
       z-index: 2;
@@ -40,7 +37,6 @@
       border: 3px solid #0ff;
       animation: boxGlow 5s linear infinite;
     }
-
     @keyframes boxGlow {
       0%   { border-color: #0ff; }
       25%  { border-color: #0f0; }
@@ -48,11 +44,9 @@
       75%  { border-color: #f0f; }
       100% { border-color: #0ff; }
     }
-
     .slide {
       display: none;
     }
-
     .slide.active {
       display: flex;
       flex-direction: column;
@@ -60,36 +54,30 @@
       align-items: center;
       animation: fadeIn 1s ease-in-out;
     }
-
     @keyframes fadeIn {
       from { opacity: 0; transform: scale(0.95); }
       to   { opacity: 1; transform: scale(1); }
     }
-
     h2 {
       font-size: 30px;
       margin-bottom: 20px;
       animation: colorChange 4s infinite;
       text-shadow: 0 0 10px currentColor;
     }
-
     .info-item {
       margin-bottom: 20px;
     }
-
     .info-item h4 {
       margin: 0;
       font-size: 18px;
       animation: colorChange 4s infinite;
       text-shadow: 0 0 5px currentColor;
     }
-
     .info-item p {
       margin: 5px 0 0;
       color: #ccc;
       text-shadow: 0 0 4px #888;
     }
-
     @keyframes colorChange {
       0%   { color: #0ff; }
       25%  { color: #0f0; }
@@ -97,7 +85,6 @@
       75%  { color: #f0f; }
       100% { color: #0ff; }
     }
-
     form input, form textarea {
       width: 100%;
       padding: 12px;
@@ -108,11 +95,9 @@
       color: white;
       font-size: 15px;
     }
-
     form textarea {
       resize: vertical;
     }
-
     button {
       padding: 10px 20px;
       font-size: 16px;
@@ -123,7 +108,6 @@
       cursor: pointer;
       transition: 0.3s ease;
     }
-
     button:hover {
       background: #00ccff;
       box-shadow: 0 0 10px #00ccff, 0 0 20px #00ccff;
@@ -131,9 +115,7 @@
   </style>
 </head>
 <body>
-
   <canvas id="matrixCanvas"></canvas>
-
   <div class="content">
     <div class="slide active" id="slide1">
       <h2>Contact Us</h2>
@@ -150,7 +132,6 @@
         <p>You know where we are</p>
       </div>
     </div>
-
     <div class="slide" id="slide2">
       <h2>Send a Message</h2>
       <form>
@@ -166,7 +147,6 @@
     const slides = document.querySelectorAll('.slide');
     let current = 0;
     let slideInterval;
-  
     function showSlide(index) {
       slides.forEach((slide, i) => {
         slide.classList.remove('active');
@@ -176,24 +156,19 @@
         }
       });
     }
-  
     function nextSlide() {
       current = (current + 1) % slides.length;
       showSlide(current);
     }
-  
     function startSlideshow() {
       slideInterval = setInterval(nextSlide, 6000);
     }
-  
     function stopSlideshow() {
       clearInterval(slideInterval);
     }
-  
     // Start initially
     showSlide(current);
     startSlideshow();
-  
     // Pause/resume slideshow on input focus/blur
     const inputs = document.querySelectorAll('input, textarea');
     inputs.forEach(input => {
@@ -204,54 +179,41 @@
         if (!anyFocused) startSlideshow();
       });
     });
-  
-  
     // === MATRIX RAIN ===
     const canvas = document.getElementById("matrixCanvas");
     const ctx = canvas.getContext("2d");
-  
     let letters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789".split("");
     let fontSize = 14;
     let columns;
     let drops;
-  
     function resizeCanvas() {
       canvas.width = window.innerWidth;
       canvas.height = window.innerHeight;
       columns = Math.floor(canvas.width / fontSize);
       drops = Array(columns).fill(1);
     }
-  
     resizeCanvas();
     window.addEventListener("resize", resizeCanvas);
-  
     let colors = ['#0ff', '#0f0', '#ff0', '#f0f'];
     let colorIndex = 0;
-  
     function draw() {
       ctx.fillStyle = "rgba(0, 0, 0, 0.1)";
       ctx.fillRect(0, 0, canvas.width, canvas.height);
-  
       ctx.fillStyle = colors[colorIndex];
       ctx.font = fontSize + "px monospace";
-  
       for (let i = 0; i < drops.length; i++) {
         const text = letters[Math.floor(Math.random() * letters.length)];
         ctx.fillText(text, i * fontSize, drops[i] * fontSize);
-  
         if (drops[i] * fontSize > canvas.height && Math.random() > 0.975) {
           drops[i] = 0;
         }
         drops[i]++;
       }
     }
-  
     setInterval(draw, 40);
     setInterval(() => {
       colorIndex = (colorIndex + 1) % colors.length;
     }, 2000);
   </script>
-  
-  
 </body>
 </html>

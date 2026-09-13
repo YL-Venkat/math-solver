@@ -1,27 +1,21 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
   <title>Calculator — Math Solver</title>
-
   <link
     href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800&family=Open+Sans:wght@300;400;600;700&display=swap"
     rel="stylesheet">
-
   <style>
     * {
       box-sizing: border-box;
       margin: 0;
       padding: 0;
     }
-
     html {
       scroll-behavior: smooth;
     }
-
     body {
       min-height: 100vh;
       font-family: 'Open Sans', sans-serif;
@@ -33,11 +27,9 @@
       overflow-x: hidden;
       padding: 30px 15px;
     }
-
     /* =========================
        BACKGROUND
        ========================= */
-
     body::before {
       content: "";
       position: fixed;
@@ -51,7 +43,6 @@
         url("a.jpg") center / cover no-repeat fixed;
       z-index: -2;
     }
-
     body::after {
       content: "";
       position: fixed;
@@ -70,21 +61,17 @@
       z-index: -1;
       pointer-events: none;
     }
-
     /* =========================
        MAIN CONTAINER
        ========================= */
-
     .page {
       width: 100%;
       max-width: 500px;
       text-align: center;
     }
-
     .title {
       margin-bottom: 25px;
     }
-
     .title span {
       display: inline-block;
       color: #00f5ff;
@@ -94,162 +81,120 @@
       text-transform: uppercase;
       margin-bottom: 10px;
     }
-
     .title h1 {
       font-family: 'Montserrat', sans-serif;
       font-size: 38px;
       font-weight: 800;
-
       background: linear-gradient(
         90deg,
         #00f5ff,
         #7a2cff,
         #ff00d4
       );
-
       color: transparent;
       -webkit-background-clip: text;
       background-clip: text;
     }
-
     .title p {
       margin-top: 8px;
       color: rgba(255, 255, 255, 0.65);
       font-size: 14px;
     }
-
     /* =========================
        CALCULATOR
        ========================= */
-
     .calculator {
       width: 100%;
       padding: 25px;
-
       background: rgba(12, 12, 25, 0.70);
-      backdrop-filter: blur(20px);
       -webkit-backdrop-filter: blur(20px);
-
+      backdrop-filter: blur(20px);
       border: 1px solid rgba(0, 242, 255, 0.25);
       border-radius: 28px;
-
       box-shadow:
         0 25px 60px rgba(0, 0, 0, 0.55),
         0 0 30px rgba(0, 242, 255, 0.12);
     }
-
     /* =========================
        DISPLAY
        ========================= */
-
     .display-container {
       width: 100%;
       margin-bottom: 20px;
     }
-
     #display {
       width: 100%;
       height: 90px;
-
       border: 1px solid rgba(0, 242, 255, 0.25);
       border-radius: 18px;
-
       background: rgba(0, 0, 0, 0.45);
-
       color: white;
-
       font-family: 'Montserrat', sans-serif;
       font-size: 34px;
       font-weight: 700;
-
       text-align: right;
-
       padding: 15px 18px;
-
       outline: none;
-
       box-shadow:
         inset 0 0 20px rgba(0, 0, 0, 0.4),
         0 0 15px rgba(0, 242, 255, 0.08);
     }
-
     #display::placeholder {
       color: rgba(255, 255, 255, 0.35);
     }
-
     /* =========================
        BUTTON GRID
        ========================= */
-
     .buttons {
       display: grid;
       grid-template-columns: repeat(4, 1fr);
       gap: 12px;
     }
-
     button {
       height: 65px;
-
       border: none;
       border-radius: 16px;
-
       font-family: 'Montserrat', sans-serif;
       font-size: 18px;
       font-weight: 700;
-
       cursor: pointer;
-
       color: white;
-
       background: rgba(255, 255, 255, 0.08);
-
       border: 1px solid rgba(255, 255, 255, 0.08);
-
       transition:
         transform 0.15s ease,
         background 0.2s ease,
         box-shadow 0.2s ease;
     }
-
     button:hover {
       background: rgba(0, 242, 255, 0.15);
-
       border-color: rgba(0, 242, 255, 0.4);
-
       box-shadow:
         0 0 15px rgba(0, 242, 255, 0.15);
-
       transform: translateY(-2px);
     }
-
     button:active {
       transform: scale(0.94);
     }
-
     /* =========================
        SPECIAL BUTTONS
        ========================= */
-
     .operator {
       background: rgba(122, 44, 255, 0.20);
       border-color: rgba(122, 44, 255, 0.25);
     }
-
     .operator:hover {
       background: rgba(122, 44, 255, 0.35);
       border-color: rgba(122, 44, 255, 0.6);
     }
-
     .function {
       background: rgba(255, 0, 212, 0.15);
       border-color: rgba(255, 0, 212, 0.25);
     }
-
     .function:hover {
       background: rgba(255, 0, 212, 0.28);
       border-color: rgba(255, 0, 212, 0.55);
     }
-
     .equals {
       background:
         linear-gradient(
@@ -258,99 +203,70 @@
           #7a2cff,
           #ff00d4
         );
-
       border: none;
-
       box-shadow:
         0 0 20px rgba(0, 242, 255, 0.25);
     }
-
     .equals:hover {
       box-shadow:
         0 0 30px rgba(0, 242, 255, 0.45);
     }
-
     .zero {
       grid-column: span 2;
     }
-
     /* =========================
        RESULT MESSAGE
        ========================= */
-
     #message {
       min-height: 24px;
       margin-top: 15px;
-
       color: #00f5ff;
-
       font-size: 13px;
       font-weight: 600;
     }
-
     /* =========================
        BACK BUTTON
        ========================= */
-
     .back-button {
       display: inline-block;
-
       margin-top: 25px;
-
       padding: 11px 22px;
-
       border-radius: 25px;
-
       color: white;
       text-decoration: none;
-
       font-size: 13px;
       font-weight: 700;
-
       background: rgba(255, 255, 255, 0.08);
-
       border: 1px solid rgba(255, 255, 255, 0.2);
-
       transition: 0.3s ease;
     }
-
     .back-button:hover {
       background: rgba(0, 242, 255, 0.15);
       border-color: #00f5ff;
-
       color: #00f5ff;
-
       transform: translateY(-2px);
     }
-
     /* =========================
        RESPONSIVE
        ========================= */
-
     @media (max-width: 500px) {
-
       body {
         padding: 20px 10px;
       }
-
       .title h1 {
         font-size: 30px;
       }
-
       .calculator {
         padding: 18px;
         border-radius: 22px;
       }
-
       #display {
         height: 75px;
         font-size: 27px;
       }
-
       .buttons {
         gap: 9px;
       }
-
       button {
         height: 58px;
         font-size: 16px;
@@ -359,28 +275,18 @@
     }
   </style>
 </head>
-
 <body>
-
   <div class="page">
-
     <!-- TITLE -->
-
     <div class="title">
       <span>Math Toolkit</span>
-
       <h1>Calculator</h1>
-
       <p>
         Perform quick mathematical calculations with ease.
       </p>
     </div>
-
-
     <!-- CALCULATOR -->
-
     <div class="calculator">
-
       <div class="display-container">
         <input
           type="text"
@@ -389,234 +295,160 @@
           readonly
         >
       </div>
-
-
       <div class="buttons">
-
         <!-- ROW 1 -->
-
         <button
           class="function"
           onclick="clearDisplay()">
           AC
         </button>
-
         <button
           class="function"
           onclick="deleteLast()">
           DEL
         </button>
-
         <button
           class="function"
           onclick="appendValue('%')">
           %
         </button>
-
         <button
           class="operator"
           onclick="appendValue('/')">
           ÷
         </button>
-
-
         <!-- ROW 2 -->
-
         <button onclick="appendValue('7')">
           7
         </button>
-
         <button onclick="appendValue('8')">
           8
         </button>
-
         <button onclick="appendValue('9')">
           9
         </button>
-
         <button
           class="operator"
           onclick="appendValue('*')">
           ×
         </button>
-
-
         <!-- ROW 3 -->
-
         <button onclick="appendValue('4')">
           4
         </button>
-
         <button onclick="appendValue('5')">
           5
         </button>
-
         <button onclick="appendValue('6')">
           6
         </button>
-
         <button
           class="operator"
           onclick="appendValue('-')">
           −
         </button>
-
-
         <!-- ROW 4 -->
-
         <button onclick="appendValue('1')">
           1
         </button>
-
         <button onclick="appendValue('2')">
           2
         </button>
-
         <button onclick="appendValue('3')">
           3
         </button>
-
         <button
           class="operator"
           onclick="appendValue('+')">
           +
         </button>
-
-
         <!-- ROW 5 -->
-
         <button
           class="zero"
           onclick="appendValue('0')">
           0
         </button>
-
         <button onclick="appendValue('.')">
           .
         </button>
-
         <button
           class="equals"
           onclick="calculate()">
           =
         </button>
-
       </div>
-
       <div id="message"></div>
-
     </div>
-
-
     <!-- BACK -->
-
     <a
       href="operation.html"
       class="back-button">
       ← Back to Operations
     </a>
-
   </div>
-
-
   <script>
-
     const display = document.getElementById("display");
     const message = document.getElementById("message");
-
-
     /* =========================
        ADD VALUE
        ========================= */
-
     function appendValue(value) {
-
       display.value += value;
-
       message.textContent = "";
     }
-
-
     /* =========================
        CLEAR
        ========================= */
-
     function clearDisplay() {
-
       display.value = "";
-
       message.textContent = "";
     }
-
-
     /* =========================
        DELETE
        ========================= */
-
     function deleteLast() {
-
       display.value =
         display.value.slice(0, -1);
-
       message.textContent = "";
     }
-
-
     /* =========================
        CALCULATE
        ========================= */
-
     function calculate() {
-
       if (!display.value) {
         return;
       }
-
       try {
-
         let expression = display.value;
-
         /*
           Convert percentage into decimal
           Example:
           50% → 0.5
         */
-
         expression = expression.replace(
           /(\d+(\.\d+)?)%/g,
           "($1/100)"
         );
-
-
         /*
           Allow only calculator characters.
           This prevents arbitrary JavaScript
           from being entered.
         */
-
         if (!/^[0-9+\-*/().%\s]+$/.test(expression)) {
-
           throw new Error("Invalid expression");
         }
-
-
         const result =
           Function(
             '"use strict"; return (' +
             expression +
             ')'
           )();
-
-
         if (
           typeof result !== "number" ||
           !Number.isFinite(result)
         ) {
-
           throw new Error("Invalid calculation");
         }
-
-
         /*
           Avoid unnecessary decimal noise.
           Example:
@@ -624,58 +456,36 @@
           becomes
           0.3
         */
-
         const rounded =
           Number(
             parseFloat(result.toFixed(12))
           );
-
-
         display.value = rounded;
-
         message.textContent =
           "Calculation completed";
-
-
       } catch (error) {
-
         display.value = "";
-
         message.textContent =
           "Invalid calculation";
-
       }
-
     }
-
-
     /* =========================
        KEYBOARD SUPPORT
        ========================= */
-
     document.addEventListener(
       "keydown",
       function(event) {
-
         const key = event.key;
-
-
         /*
           Numbers
         */
-
         if (/^[0-9]$/.test(key)) {
-
           appendValue(key);
-
           return;
         }
-
-
         /*
           Operators
         */
-
         if (
           key === "+" ||
           key === "-" ||
@@ -685,70 +495,43 @@
           key === "(" ||
           key === ")"
         ) {
-
           appendValue(key);
-
           return;
         }
-
-
         /*
           Percentage
         */
-
         if (key === "%") {
-
           appendValue("%");
-
           return;
         }
-
-
         /*
           Enter / =
         */
-
         if (
           key === "Enter" ||
           key === "="
         ) {
-
           event.preventDefault();
-
           calculate();
-
           return;
         }
-
-
         /*
           Backspace
         */
-
         if (key === "Backspace") {
-
           deleteLast();
-
           return;
         }
-
-
         /*
           Escape
         */
-
         if (key === "Escape") {
-
           clearDisplay();
-
           return;
         }
-
       }
     );
-
   </script>
-
 </body>
-
 </html>
