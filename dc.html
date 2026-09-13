@@ -5,13 +5,11 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Digraphic Cipher Tool</title>
   <style>
-
 html, body {
   height: 100%;
   margin: 0;
   overflow:hidden; /* 🚫 Disable scrolling for main page */
 }
-
 body {
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
   background: linear-gradient(135deg, #00c9ff, #92fe9d);
@@ -20,7 +18,6 @@ body {
   align-items: center;
   animation: fadeIn 1.2s ease;
 }
-
     body::before {
       content: "";
       background-image: url('p.jpg');
@@ -115,7 +112,6 @@ body {
       word-wrap: break-word;
       white-space: pre-wrap;
     }
-
     .modal {
       display: none; /* hidden by default */
       position: fixed;
@@ -125,16 +121,12 @@ body {
       height: 100vh;
       background-color: rgba(0, 0, 0, 0.4);
       z-index: 1000;
-
       /* Use flex to center content when shown */
       justify-content: center;
       align-items: center;
-
       padding: 40px;
       box-sizing: border-box;
-    
     }
-
     .modal-content {
       position: relative;
       background-color: #fff;
@@ -142,20 +134,16 @@ body {
       max-width: 660px;
       height: auto;
       max-height: 660px;
-
       padding: 30px;
       border-radius: 12px;
       overflow-y: auto;
-
       font-family: 'Courier New', Courier, monospace;
       font-size: 14px;
       line-height: 1.4;
       color: #222;
-
       animation: popIn 0.3s ease;
       box-sizing: border-box;
     }
-
     .close {
       color: #aaa;
       position: absolute;
@@ -166,23 +154,19 @@ body {
       cursor: pointer;
       transition: color 0.2s;
     }
-
     .close:hover,
     .close:focus {
       color: #000;
     }
-
     .nav-controls {
   margin-top: 20px;
   display: flex;
   justify-content: space-between;
 }
-
 .nav-controls button {
   width: 120px;
   font-weight: bold;
 }
-
     @keyframes fadeIn {
       from { opacity: 0; transform: scale(0.95); }
       to { opacity: 1; transform: scale(1); }
@@ -200,7 +184,6 @@ body {
       to { opacity: 1; transform: translateY(0); }
     }
   </style>
-
   <!-- Load MathJax -->
   <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
 </head>
@@ -220,7 +203,6 @@ body {
     <button onclick="showFullProcess()">Full Process</button>
     <div id="result" class="result"></div>
   </div>
-
   <!-- Modal Window -->
   <div id="fullProcessModal" class="modal" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
     <div class="modal-content" tabindex="0">
@@ -229,12 +211,10 @@ body {
       <div id="fullProcessContent">Loading...</div>
     </div>
   </div>
-
 <script>
   function mod(n, m) {
     return ((n % m) + m) % m;
   }
-
   function modInverse(a, m) {
     a = mod(a, m);
     for (let x = 1; x < m; x++) {
@@ -242,50 +222,39 @@ body {
     }
     return null;
   }
-
   function digraphicCipher(str, a1, b1, a2, b2, mode) {
     const m = 26;
     const result = [];
-
     str = str.toUpperCase().replace(/[^A-Z]/g, '');
     if (str.length % 2 !== 0) str += 'X';
-
     if (mode === "encrypt") {
       for (let i = 0; i < str.length; i += 2) {
         let p1 = str.charCodeAt(i) - 65;
         let p2 = str.charCodeAt(i + 1) - 65;
-
         let c1 = mod((a1 * p1 + b1 * p2), m);
         let c2 = mod((a2 * p1 + b2 * p2), m);
-
         result.push(String.fromCharCode(c1 + 65));
         result.push(String.fromCharCode(c2 + 65));
       }
     } else if (mode === "decrypt") {
       let det = a1 * b2 - a2 * b1;
       let detInv = modInverse(det, m);
-
       if (detInv === null) return "Invalid: Matrix is not invertible mod 26.";
-
       let a1_inv = mod(detInv * b2, m);
       let b1_inv = mod(-detInv * b1, m);
       let a2_inv = mod(-detInv * a2, m);
       let b2_inv = mod(detInv * a1, m);
-
       for (let i = 0; i < str.length; i += 2) {
         let c1 = str.charCodeAt(i) - 65;
         let c2 = str.charCodeAt(i + 1) - 65;
-
         let p1 = mod(a1_inv * c1 + b1_inv * c2, m);
         let p2 = mod(a2_inv * c1 + b2_inv * c2, m);
-
         result.push(String.fromCharCode(p1 + 65));
         result.push(String.fromCharCode(p2 + 65));
       }
     }
     return result.join('');
   }
-
   function runDigraphic() {
     const sentence = document.getElementById("sentence").value.trim().replace(/[^A-Za-z]/g, '');
     const a1 = parseInt(document.getElementById("a1").value);
@@ -294,7 +263,6 @@ body {
     const b2 = parseInt(document.getElementById("b2").value);
     const mode = document.getElementById("mode").value;
     const resultDiv = document.getElementById("result");
-
     if (!sentence) {
       resultDiv.textContent = "Please enter a sentence.";
       resultDiv.style.display = "block";
@@ -305,12 +273,10 @@ body {
       resultDiv.style.display = "block";
       return;
     }
-
     const result = digraphicCipher(sentence, a1, b1, a2, b2, mode);
     resultDiv.innerHTML = `<strong>Result:</strong>\n${result}`;
     resultDiv.style.display = "block";
   }
-
 function showFullProcess() {
   const sentenceRaw = document.getElementById("sentence").value.trim();
   const a1 = parseInt(document.getElementById("a1").value);
@@ -319,7 +285,6 @@ function showFullProcess() {
   const b2 = parseInt(document.getElementById("b2").value);
   const mode = document.getElementById("mode").value;
   const m = 26;
-
   if (!sentenceRaw) {
     alert("Please enter a sentence before viewing full process.");
     return;
@@ -328,21 +293,17 @@ function showFullProcess() {
     alert("Please enter valid numbers for a1, b1, a2, and b2.");
     return;
   }
-
   let str = sentenceRaw.toUpperCase().replace(/[^A-Z]/g, '');
   if (str.length % 2 !== 0) str += 'X';
-
   // Create the static header part of the explanation
   let header = `
 <p style="color: black; font-weight: bold;">Given,</p>
-
 \\[
 \\begin{aligned}
 \\mathbf{c}_1 &= ${a1} \\mathbf{p}_1 + ${b1} \\mathbf{p}_2\\kern-1em\\pmod{26} \\\\[15pt]
 \\mathbf{c}_2 &= ${a2} \\mathbf{p}_1 + ${b2} \\mathbf{p}_2\\kern-1em\\pmod{26}
 \\end{aligned}
 \\]
-
 <p style="text-align: center; font-weight: bold;">
 Given message is ${sentenceRaw}
 <br style="line-height: 10;">
@@ -358,28 +319,21 @@ ${(() => {
   const numbersLine = pairs
     .map(p => `${pad(p[0].charCodeAt(0) - 65)} ${pad(p[1].charCodeAt(0) - 65)}`)
     .join('     ');
-
   return `<pre style="font-family: 'Courier New', monospace; text-align: center; font-size: 16px; font-weight: bold;">${lettersLine}\n${numbersLine}</pre>`;
 })()}
 `;
-
 const firstPageSize = 5;
 const chunkSize = 6;
 const pairsCount = str.length / 2;
-
 const remainingPairs = pairsCount - firstPageSize;
 const totalPages = 1 + Math.ceil(Math.max(0, remainingPairs) / chunkSize);
-
   // Prepare detailed pairs explanations array
   let detailedPairs = [];
-
   if (mode === "encrypt") {
-
       detailedPairs.push(`
     <p style="font-weight: bold; ">For Encryption:</p>
     <p style="font-weight: bold; text-align: center;">C ≡ AP (mod 26)</p>
   `);
-
     // Encryption explanations for each pair
     for (let i = 0; i < str.length; i += 2) {
       let p1 = str.charCodeAt(i) - 65;
@@ -392,11 +346,8 @@ const totalPages = 1 + Math.ceil(Math.max(0, remainingPairs) / chunkSize);
       let l2 = str[i + 1];
       let cipherChar1 = String.fromCharCode(c1 + 65);
       let cipherChar2 = String.fromCharCode(c2 + 65);
-
 detailedPairs.push(`
-
 <p><strong>For ${l1} ${l2}:</strong></p>
-
 \\[
 \\begin{array}{rl}
 \\mathbf{P} &= \\begin{bmatrix} ${p1} \\\\ ${p2} \\end{bmatrix} \\\\[15pt]
@@ -416,11 +367,8 @@ detailedPairs.push(`
 \\end{array}
 \\]
 `);
-
-
 }
 const finalText = digraphicCipher(sentenceRaw, a1, b1, a2, b2, 'encrypt');
-
 detailedPairs.push(`
 <hr>
 <p style="text-align: center; font-weight: bold; margin-top: 20px; color: blue;">
@@ -429,38 +377,28 @@ detailedPairs.push(`
 \\]
 </p>
 `);
-
-
   } else if (mode === "decrypt") {
     // Decryption inverse matrix calculations
     let det = a1 * b2 - a2 * b1;
     let detInv = modInverse(det, m);
-
     if (detInv === null) {
       alert("Matrix is not invertible modulo 26, so decryption is impossible.");
       return;
     }
-
     let a1_inv = ((detInv * b2) % m + m) % m;
     let b1_inv = ((-detInv * b1) % m + m) % m;
     let a2_inv = ((-detInv * a2) % m + m) % m;
     let b2_inv = ((detInv * a1) % m + m) % m;
-
     header += `
 Determinant:
-
 \\[
 \\det(A) = (${a1} \\times ${b2}) - (${a2} \\times ${b1}) = ${det}
 \\]
-
 Inverse of determinant mod 26:
-
 \\[
 \\det(A)^{-1} \\equiv ${detInv} \\pmod{26}
 \\]
-
 Inverse matrix \\( A^{-1} \\) modulo 26:
-
 \\[
 A^{-1} = \\det(A)^{-1} 
 \\times 
@@ -475,9 +413,7 @@ ${a2_inv} & ${b2_inv}
 \\end{bmatrix}
 \\pmod{26}
 \\]
-
 Decrypting each ciphertext pair using:
-
 \\[
 \\begin{bmatrix}
 p_1 \\\\
@@ -492,20 +428,15 @@ c_2
 \\end{bmatrix}
 \\pmod{26}
 \\]
-
 Calculate plaintext pairs:
-
 \\[
 \\begin{aligned}
 `;
-
     for (let i = 0; i < str.length; i += 2) {
       let c1 = str.charCodeAt(i) - 65;
       let c2 = str.charCodeAt(i + 1) - 65;
-
       let p1 = ((a1_inv * c1 + b1_inv * c2) % m + m) % m;
       let p2 = ((a2_inv * c1 + b2_inv * c2) % m + m) % m;
-
       detailedPairs.push(`\\[
       \\begin{bmatrix} ${p1} \\\\ ${p2} \\end{bmatrix} = 
 \\begin{bmatrix} ${a1_inv} & ${b1_inv} \\\\ ${a2_inv} & ${b2_inv} \\end{bmatrix} 
@@ -516,97 +447,76 @@ Calculate plaintext pairs:
 \\text{Plain letters: } ${String.fromCharCode(p1 + 65)} ${String.fromCharCode(p2 + 65)}\\]
 `);
     }
-
     header += `\\end{aligned}
 \\]
 Final plaintext: \\texttt{${digraphicCipher(sentenceRaw, a1, b1, a2, b2, 'decrypt')}}
 `;
   }
-
    let currentPage = 1;
-
   // Create navigation controls inside modal
   const modalContent = document.querySelector('#fullProcessModal .modal-content');
   // Clear existing nav if any
   let existingNav = modalContent.querySelector('.nav-controls');
   if (existingNav) existingNav.remove();
-
   const navControls = document.createElement('div');
   navControls.classList.add('nav-controls');
   navControls.style.margin = '10px 0';
   navControls.style.textAlign = 'center';
-
   const prevBtn = document.createElement('button');
   prevBtn.textContent = 'Previous';
   prevBtn.disabled = true;
   prevBtn.style.marginRight = '10px';
-
   const nextBtn = document.createElement('button');
   nextBtn.textContent = 'Next';
-
   navControls.appendChild(prevBtn);
   navControls.appendChild(nextBtn);
-
   // Insert nav controls after modal title but before content
   const fullProcessContent = document.getElementById('fullProcessContent');
   modalContent.appendChild(navControls);
-
   function renderPage(page) {
     currentPage = page;
     const start = (page - 1) * chunkSize;
     const end = Math.min(start + chunkSize, detailedPairs.length);
-
     let pagePairsLaTeX = detailedPairs.slice(start, end).join('\n');
-
     let pageContent = '';
     if (page === 1) {
       pageContent = header + "\n" + pagePairsLaTeX;
     } else {
       pageContent = pagePairsLaTeX;
     }
-
     fullProcessContent.innerHTML = pageContent;
-
     MathJax.typesetPromise().then(() => {
       // Scroll modal content to top when page changes
       modalContent.scrollTop = 0;
     });
-
     // Enable/disable buttons
     prevBtn.disabled = (page === 1);
     nextBtn.disabled = (page === totalPages);
   }
-
   prevBtn.addEventListener('click', () => {
     if (currentPage > 1) renderPage(currentPage - 1);
   });
-
   nextBtn.addEventListener('click', () => {
     if (currentPage < totalPages) renderPage(currentPage + 1);
   });
-
   // Show the modal
   const fullProcessModal = document.getElementById('fullProcessModal');
   fullProcessModal.style.display = 'flex';
-
   // Render the first page
   renderPage(1);
 }
-
 window.addEventListener("click", function(event) {
   const modal = document.getElementById("fullProcessModal");
   if (event.target === modal) {
     modal.style.display = "none";
   }
 });
-
 // Close modal with Escape key
 document.addEventListener("keydown", function(event) {
   if (event.key === "Escape") {
     document.getElementById("fullProcessModal").style.display = "none";
   }
 });
-
 function closeModal() {
   document.getElementById("fullProcessModal").style.display = "none";
 }
