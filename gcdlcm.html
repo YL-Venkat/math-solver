@@ -2,8 +2,8 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Big Number Factorial</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>GCD & LCM Calculator - Big Numbers</title>
   <style>
     body {
       font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
@@ -64,7 +64,7 @@
       color: #333;
       animation: floatText 3s ease-in-out infinite;
     }
-    input[type="number"] {
+    input[type="text"] {
       width: 100%;
       padding: 12px;
       margin: 12px 0;
@@ -91,38 +91,28 @@
       font-size: 16px;
       cursor: pointer;
       transition: transform 0.3s ease, box-shadow 0.3s ease;
+      margin-top: 10px;
     }
     button:hover {
       transform: scale(1.05);
       box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
     }
-    textarea.result {
-      width: 100%;
+    .result {
+      display: none;
       margin-top: 20px;
-      padding: 12px;
+      font-weight: bold;
       font-size: 16px;
-      font-weight: bold;
       color: #333;
-      border-radius: 8px;
-      border: 1px solid #ccc;
-      resize: vertical;
       animation: fadeUp 0.6s ease-in;
-      display: none;
-      box-sizing: border-box;
-      font-family: inherit;
-    }
-    .time-display {
-      margin-top: 10px;
-      font-size: 14px;
-      color: #444;
-      font-weight: bold;
-      display: none;
+      word-wrap: break-word;
+      overflow-x: auto;
+      max-height: 300px;
+      padding: 10px;
+      background: #f3f3f3;
+      border-radius: 8px;
     }
     .error {
       color: red;
-      font-weight: bold;
-      margin-top: 10px;
-      display: none;
     }
     @keyframes fadeIn {
       from { opacity: 0; transform: scale(0.95); }
@@ -162,43 +152,49 @@
 </head>
 <body>
   <div class="container">
-    <h2>Factorial Calculator</h2>
-    <input type="number" id="num" placeholder="Enter a non-negative integer" min="0" />
-    <button onclick="calculateFactorial()">Calculate Factorial</button>
-    <textarea id="result" class="result" readonly rows="8"></textarea>
-    <div id="timeDisplay" class="time-display"></div>
-    <div id="error" class="error"></div>
+    <h2>GCD & LCM Calculator</h2>
+    <input id="num1" type="text" placeholder="Enter first big number" />
+    <input id="num2" type="text" placeholder="Enter second big number" />
+    <button onclick="calculateGCDLCM()">Calculate gcd & lcm</button>
+    <div id="result" class="result"></div>
   </div>
   <script>
-    function calculateFactorial() {
-      const input = document.getElementById("num").value.trim();
-      const resultArea = document.getElementById("result");
-      const errorArea = document.getElementById("error");
-      const timeDisplay = document.getElementById("timeDisplay");
-      const n = Number(input);
-      // Hide previous output
-      resultArea.style.display = "none";
-      errorArea.style.display = "none";
-      timeDisplay.style.display = "none";
-      resultArea.value = "";
-      errorArea.innerHTML = "";
-      timeDisplay.innerText = "";
-      if (isNaN(n) || n < 0 || !Number.isInteger(n)) {
-        errorArea.innerHTML = "❌ Please enter a valid non-negative integer.";
-        errorArea.style.display = "block";
+    function gcd(a, b) {
+      a = BigInt(a);
+      b = BigInt(b);
+      while (b !== 0n) {
+        let temp = b;
+        b = a % b;
+        a = temp;
+      }
+      return a;
+    }
+    function lcm(a, b) {
+      a = BigInt(a);
+      b = BigInt(b);
+      return (a * b) / gcd(a, b);
+    }
+    function calculateGCDLCM() {
+      const n1 = document.getElementById("num1").value.trim();
+      const n2 = document.getElementById("num2").value.trim();
+      const resultDiv = document.getElementById("result");
+      if (!/^\d+$/.test(n1) || !/^\d+$/.test(n2)) {
+        resultDiv.style.display = "block";
+        resultDiv.innerHTML = `<span class="error">Please enter valid non-negative integers.</span>`;
         return;
       }
-      const start = performance.now();
-      let result = 1n;
-      for (let i = 2n; i <= BigInt(n); i++) {
-        result *= i;
+      try {
+        const g = gcd(n1, n2);
+        const l = lcm(n1, n2);
+        resultDiv.style.display = "block";
+        resultDiv.innerHTML = `
+          <strong>GCD:</strong> ${g.toString()}<br>
+          <strong>LCM:</strong> ${l.toString()}
+        `;
+      } catch (e) {
+        resultDiv.style.display = "block";
+        resultDiv.innerHTML = `<span class="error">Error processing large numbers.</span>`;
       }
-      const end = performance.now();
-      const timeTaken = (end - start).toFixed(2);
-      resultArea.value = `${n}! = ${result.toString()}`;
-      resultArea.style.display = "block";
-      timeDisplay.innerText = `🕒 Time taken: ${timeTaken} ms`;
-      timeDisplay.style.display = "block";
     }
   </script>
 </body>
