@@ -16,7 +16,6 @@
       overflow-x: hidden;
       animation: fadeIn 1.2s ease;
     }
-
     input::placeholder {
       color: #888;
       font-style: italic;
@@ -24,18 +23,15 @@
       opacity: 0.9;
       animation: pulsePlaceholder 3s ease-in-out infinite;
     }
-
     input:focus::placeholder {
       transform: translateX(5px);
       opacity: 0.5;
     }
-
     @keyframes pulsePlaceholder {
       0% { opacity: 0.6; }
       50% { opacity: 1; }
       100% { opacity: 0.6; }
     }
-
     .container {
       background: rgba(255, 255, 255, 0.95);
       padding: 30px 25px;
@@ -47,7 +43,6 @@
       overflow: hidden;
       animation: popIn 0.9s ease-out;
     }
-
     .container::before {
       content: '';
       position: absolute;
@@ -60,19 +55,16 @@
       z-index: 0;
       opacity: 0.1;
     }
-
     .container * {
       position: relative;
       z-index: 1;
     }
-
     h2 {
       margin-bottom: 20px;
       font-size: 24px;
       color: #333;
       animation: floatText 3s ease-in-out infinite;
     }
-
     input[type="number"] {
       width: 100%;
       padding: 12px;
@@ -84,13 +76,11 @@
       background: #f9f9f9;
       transition: 0.3s ease;
     }
-
     input:focus {
       outline: none;
       border-color: #00c9ff;
       box-shadow: 0 0 10px #00c9ff55;
     }
-
     button {
   width: 100%;
   padding: 12px;
@@ -106,14 +96,12 @@
   display: block;
   text-align: center;
 }
-
 button sup {
   font-size: 0.65em;
   position: relative;
   top: -0.45em;
   line-height: 0;
 }
-
 button i {
   font-family: inherit;
   font-style: normal;
@@ -123,7 +111,6 @@ button i {
       transform: scale(1.05);
       box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
     }
-
     .result {
       display: none;
       margin-top: 20px;
@@ -138,36 +125,29 @@ button i {
       background: #f3f3f3;
       border-radius: 8px;
     }
-
     .error {
       color: red;
     }
-
     @keyframes fadeIn {
       from { opacity: 0; transform: scale(0.95); }
       to { opacity: 1; transform: scale(1); }
     }
-
     @keyframes popIn {
       from { transform: scale(0.8); opacity: 0; }
       to { transform: scale(1); opacity: 1; }
     }
-
     @keyframes floatText {
       0%, 100% { transform: translateY(0); }
       50% { transform: translateY(-6px); }
     }
-
     @keyframes fadeUp {
       from { opacity: 0; transform: translateY(20px); }
       to { opacity: 1; transform: translateY(0); }
     }
-
     @keyframes rotateBG {
       from { transform: rotate(0deg); }
       to { transform: rotate(360deg); }
     }
-
     body::before {
       content: "";
       background-image: url('p.jpg');
@@ -193,7 +173,6 @@ button i {
    <button onclick="calculateModExp()">Calculate <i>a</i><sup><i>n</i></sup> mod <i>b</i></button>
     <div id="result" class="result"></div>
   </div>
-
   <script>
     function modExp(a, n, mod) {
       a = BigInt(a);
@@ -209,22 +188,18 @@ button i {
       }
       return result;
     }
-
     function calculateModExp() {
       const a = document.getElementById("base").value.trim();
       const n = document.getElementById("exponent").value.trim();
       const mod = document.getElementById("modulus").value.trim();
       const resultArea = document.getElementById("result");
-
       if (!a || !n || !mod || Number(mod) === 0) {
         resultArea.style.display = "block";
         resultArea.innerHTML = `<span class="error">Please enter valid numbers. Modulus must be non-zero.</span>`;
         return;
       }
-
       resultArea.style.display = "block";
       resultArea.innerHTML = `Calculating... ⏳`;
-
       setTimeout(() => {
         const result = modExp(a, n, mod);
         resultArea.innerHTML = `Result: <strong>${result.toString()}</strong>`;
