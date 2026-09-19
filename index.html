@@ -232,17 +232,17 @@
             const { data } = await supabaseClient.auth.getSession();
             session = data?.session || null;
           }
+          
           if (session && session.user) {
             window.location.href = "operation.html";
           } else {
-            const agModal = document.getElementById("authGuardModal");
-            if (agModal) {
-              agModal.style.display = "flex";
+            // Trigger the global function built into ag.js
+            if (typeof window.showAuthGuardModal === "function") {
+              window.showAuthGuardModal();
             }
           }
         });
       }
-
       // =========================================
       // PI-BOT LOGIC
       // =========================================
