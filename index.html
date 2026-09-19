@@ -2,20 +2,20 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta
-    name="viewport"
-    content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Math Solver</title>
-  <link
-    rel="stylesheet"
-    href="a.css">
-  <link
-    href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;700&family=Open+Sans:wght@300;400;600;700&display=swap"
-    rel="stylesheet">
+  <link rel="stylesheet" href="a.css">
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;700&family=Open+Sans:wght@300;400;600;700&display=swap" rel="stylesheet">
   <!-- Supabase -->
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <script src="supabase.js"></script>
   <script src="ag.js"></script>
+  <style>
+    /* Ensure profile container stays hidden until session is verified */
+    .profile-container {
+      display: none; 
+    }
+  </style>
 </head>
 <body>
   <div class="bgimage">
@@ -26,16 +26,12 @@
       <div class="navbar">
         <!-- BRAND -->
         <div class="brand">
-          <img
-            src="log.png"
-            alt="Math Solver Logo">
+          <img src="log.png" alt="Math Solver Logo">
           <h1>Math Solver</h1>
         </div>
         <!-- NAVIGATION -->
         <nav>
-          <a
-            href="operation.html"
-            id="operationsLink">
+          <a href="operation.html" id="operationsLink">
             Operations
           </a>
           <a href="about.html">
@@ -48,40 +44,23 @@
             Contact
           </a>
           <!-- LOGIN BUTTON -->
-          <button
-            class="login-btn"
-            id="loginBtn"
-            onclick="window.location.href='login.html'">
+          <button class="login-btn" id="loginBtn" onclick="window.location.href='login.html'">
             Login
           </button>
           <!-- PROFILE -->
-          <div
-            class="profile-container"
-            id="profileContainer">
-            <button
-              class="profile-btn"
-              id="profileBtn">
-              <span id="profileInitial">
-                U
-              </span>
+          <div class="profile-container" id="profileContainer">
+            <button class="profile-btn" id="profileBtn">
+              <span id="profileInitial">U</span>
             </button>
-            <div
-              class="profile-dropdown"
-              id="profileDropdown">
-              <div
-                class="profile-email"
-                id="profileEmail">
+            <div class="profile-dropdown" id="profileDropdown">
+              <div class="profile-email" id="profileEmail">
                 user@email.com
               </div>
               <div class="dropdown-divider"></div>
-              <button
-                class="dropdown-item"
-                onclick="window.location.href='profile.html'">
+              <button class="dropdown-item" onclick="window.location.href='profile.html'">
                 Profile
               </button>
-              <button
-                class="dropdown-item logout-item"
-                id="logoutBtn">
+              <button class="dropdown-item logout-item" id="logoutBtn">
                 Logout
               </button>
             </div>
@@ -89,138 +68,65 @@
         </nav>
       </div>
     </header>
+
     <!-- =========================
          PI-BOT
     ========================== -->
     <div class="help-bot" id="helpBot">
-      <!-- =========================
-           AUTOMATIC WELCOME MESSAGE
-      ========================== -->
-      <div
-        class="bot-intro"
-        id="botIntro">
-        👋 Hi! I'm
-        <strong>Pi</strong>!
-        <br>
-        Need help using
-        <strong>Math Solver</strong>?
+      <div class="bot-intro" id="botIntro">
+        👋 Hi! I'm <strong>Pi</strong>!<br>
+        Need help using <strong>Math Solver</strong>?
       </div>
-      <!-- =========================
-           BOT CHAT WINDOW
-      ========================== -->
-      <div
-        class="bot-window"
-        id="botWindow">
-        <!-- BOT HEADER -->
+      <div class="bot-window" id="botWindow">
         <div class="bot-header">
           <div class="bot-title">
-            <!-- BOT AVATAR -->
             <div class="bot-avatar-small">
-              <img
-                src="log.png"
-                alt="Pi-Bot">
+              <img src="log.png" alt="Pi-Bot">
             </div>
-            <!-- BOT NAME -->
             <div>
-              <h3>
-                Pi
-              </h3>
-              <span>
-                <i></i>
-                Online
-              </span>
+              <h3>Pi</h3>
+              <span><i></i>Online</span>
             </div>
           </div>
-          <!-- CLOSE BUTTON -->
-          <button
-            class="bot-close"
-            id="botClose"
-            aria-label="Close Pi-Bot">
-            ×
-          </button>
+          <button class="bot-close" id="botClose" aria-label="Close Pi-Bot">×</button>
         </div>
-        <!-- =========================
-             CHAT MESSAGES
-        ========================== -->
-        <div
-          class="bot-messages"
-          id="botMessages">
+        <div class="bot-messages" id="botMessages">
           <div class="bot-message">
-            👋 Hi! Welcome to
-            <strong>Math Solver</strong>!
-            <br>
-            <br>
-            I'm
-            <strong>Pi</strong>,
-            your virtual assistant.
-            I can help you understand
-            how to use this website.
+            👋 Hi! Welcome to <strong>Math Solver</strong>!<br><br>
+            I'm <strong>Pi</strong>, your virtual assistant. I can help you understand how to use this website.
           </div>
           <div class="bot-message">
             What would you like to know?
           </div>
         </div>
-        <!-- =========================
-             QUICK QUESTIONS
-        ========================== -->
-        <div
-          class="bot-questions"
-          id="botQuestions">
-          <button
-            data-question="operations">
-            🧮 How to use Operations?
-          </button>
-          <button
-            data-question="login">
-            🔐 Why do I need Login?
-          </button>
-          <button
-            data-question="website">
-            🌐 What can I do here?
-          </button>
-          <button
-            data-question="navigation">
-            🧭 Where should I go?
-          </button>
+        <div class="bot-questions" id="botQuestions">
+          <button data-question="operations">🧮 How to use Operations?</button>
+          <button data-question="login">🔐 Why do I need Login?</button>
+          <button data-question="website">🌐 What can I do here?</button>
+          <button data-question="navigation">🧭 Where should I go?</button>
         </div>
       </div>
-      <!-- =========================
-           FLOATING PI-BOT BUTTON
-      ========================== -->
-      <button
-        class="bot-button"
-        id="botButton"
-        aria-label="Open Pi-Bot">
+      <button class="bot-button" id="botButton" aria-label="Open Pi-Bot">
         <span class="bot-icon">
-          <img
-            src="log.png"
-            alt="Pi-Bot">
+          <img src="log.png" alt="Pi-Bot">
         </span>
-        <!-- NOTIFICATION -->
-        <span
-          class="bot-notification"
-          id="botNotification">
-          1
-        </span>
+        <span class="bot-notification" id="botNotification">1</span>
       </button>
     </div>
+
     <!-- =========================
          FOOTER
     ========================== -->
     <footer>
-      <p>
-        No need to worry - we're here to make math easy for you!
-      </p>
+      <p>No need to worry - we're here to make math easy for you!</p>
     </footer>
   </div>
+
   <!-- =========================
        JAVASCRIPT
   ========================== -->
   <script>
     document.addEventListener("DOMContentLoaded", () => {
-      /* =========================================
-         EXISTING NAVBAR ELEMENTS
-      ========================================= */
       const loginBtn = document.getElementById("loginBtn");
       const profileContainer = document.getElementById("profileContainer");
       const profileBtn = document.getElementById("profileBtn");
@@ -229,15 +135,19 @@
       const profileInitial = document.getElementById("profileInitial");
       const logoutBtn = document.getElementById("logoutBtn");
       const operationsLink = document.getElementById("operationsLink");
-      /* =========================================
-         RENDER NAVBAR UI
-      ========================================= */
+
+      // =========================================
+      // RENDER NAVBAR UI
+      // =========================================
       function renderUserUI(user) {
         if (user) {
           if (loginBtn) loginBtn.style.display = "none";
           if (profileContainer) profileContainer.style.display = "block";
           if (profileEmail) profileEmail.textContent = user.email || "";
-          const avatarUrl = user.user_metadata?.avatar_url;
+
+          // Check for avatar in user metadata (Google, etc.)
+          const avatarUrl = user.user_metadata?.avatar_url || user.user_metadata?.picture;
+          
           if (profileBtn) {
             if (avatarUrl) {
               profileBtn.style.backgroundImage = `url("${avatarUrl}")`;
@@ -256,9 +166,10 @@
           if (profileContainer) profileContainer.style.display = "none";
         }
       }
-      /* =========================================
-         CHECK USER SESSION
-      ========================================= */
+
+      // =========================================
+      // CHECK USER SESSION
+      // =========================================
       async function checkUser() {
         if (typeof supabaseClient === "undefined" || !supabaseClient) return;
         const { data: { session }, error } = await supabaseClient.auth.getSession();
@@ -269,17 +180,19 @@
         renderUserUI(session?.user || null);
       }
       checkUser();
-      /* =========================================
-         AUTH STATE CHANGE
-      ========================================= */
+
+      // =========================================
+      // AUTH STATE CHANGE
+      // =========================================
       if (typeof supabaseClient !== "undefined" && supabaseClient) {
         supabaseClient.auth.onAuthStateChange((_event, session) => {
           renderUserUI(session?.user || null);
         });
       }
-      /* =========================================
-         PROFILE DROPDOWN
-      ========================================= */
+
+      // =========================================
+      // PROFILE DROPDOWN
+      // =========================================
       if (profileBtn && profileDropdown) {
         profileBtn.addEventListener("click", (event) => {
           event.stopPropagation();
@@ -291,27 +204,26 @@
           profileDropdown.classList.remove("show");
         }
       });
-      /* =========================================
-         LOGOUT
-      ========================================= */
+
+      // =========================================
+      // LOGOUT
+      // =========================================
       if (logoutBtn) {
         logoutBtn.addEventListener("click", async () => {
           logoutBtn.textContent = "Logging out...";
           logoutBtn.disabled = true;
           if (typeof supabaseClient !== "undefined" && supabaseClient) {
-            const { error } = await supabaseClient.auth.signOut({ scope: "local" });
-            if (error) {
-              console.error("Supabase logout failed:", error);
-              localStorage.clear();
-              sessionStorage.clear();
-            }
+            await supabaseClient.auth.signOut({ scope: "local" });
           }
+          localStorage.clear();
+          sessionStorage.clear();
           window.location.href = "index.html";
         });
       }
-      /* =========================================
-         OPERATIONS AUTH GUARD
-      ========================================= */
+
+      // =========================================
+      // OPERATIONS AUTH GUARD
+      // =========================================
       if (operationsLink) {
         operationsLink.addEventListener("click", async (event) => {
           event.preventDefault();
@@ -323,210 +235,92 @@
           if (session && session.user) {
             window.location.href = "operation.html";
           } else {
-            if (typeof showAuthGuardModal === "function") {
-              showAuthGuardModal();
-            } else {
-              const agModal = document.getElementById("authGuardModal");
-              if (agModal) {
-                agModal.style.display = "flex";
-              }
+            const agModal = document.getElementById("authGuardModal");
+            if (agModal) {
+              agModal.style.display = "flex";
             }
           }
         });
       }
-      /* =========================================
-         PI-BOT ELEMENTS
-      ========================================= */
+
+      // =========================================
+      // PI-BOT LOGIC
+      // =========================================
       const botButton = document.getElementById("botButton");
       const botWindow = document.getElementById("botWindow");
       const botClose = document.getElementById("botClose");
       const botMessages = document.getElementById("botMessages");
-      const botQuestions = document.getElementById("botQuestions");
-      const botIntro = document.getElementById("botIntro");
       const botNotification = document.getElementById("botNotification");
-      /* =========================================
-         PI-BOT FIRST VISIT ONLY
-      ========================================= */
       const helpBotElement = document.getElementById("helpBot");
-      const isPiBotReturningVisit =
-        sessionStorage.getItem("piBotHasVisited") === "true";
+      
+      const isPiBotReturningVisit = sessionStorage.getItem("piBotHasVisited") === "true";
       if (helpBotElement && isPiBotReturningVisit) {
         helpBotElement.classList.add("skip-orbit");
       } else if (helpBotElement) {
         sessionStorage.setItem("piBotHasVisited", "true");
       }
-      /* =========================================
-         AUTOMATIC INTRO MESSAGE
-      ========================================= */
+
       let introTimer;
       function hideBotIntro() {
+        const botIntro = document.getElementById("botIntro");
         if (botIntro) {
-          botIntro.style.animation =
-            "botIntroDisappear 0.5s ease forwards";
+          botIntro.style.animation = "botIntroDisappear 0.5s ease forwards";
         }
       }
-      /* Only start the intro timer on the first visit */
+
       if (!isPiBotReturningVisit) {
-        introTimer = setTimeout(() => {
-          hideBotIntro();
-        }, 7500);
+        introTimer = setTimeout(() => { hideBotIntro(); }, 7500);
       }
-      /* =========================================
-         OPEN PI-BOT
-      ========================================= */
+
       if (botButton && botWindow) {
         botButton.addEventListener("click", () => {
           clearTimeout(introTimer);
           hideBotIntro();
           botWindow.classList.add("active");
           botButton.classList.add("hidden");
-          if (botNotification) {
-            botNotification.style.display = "none";
-          }
+          if (botNotification) botNotification.style.display = "none";
         });
       }
-      /* =========================================
-         CLOSE PI-BOT
-      ========================================= */
+
       if (botClose && botWindow && botButton) {
         botClose.addEventListener("click", () => {
           botWindow.classList.remove("active");
           botButton.classList.remove("hidden");
         });
       }
-      /* =========================================
-         ADD USER MESSAGE
-      ========================================= */
+
       function addUserMessage(text) {
         if (!botMessages) return;
         const message = document.createElement("div");
         message.className = "user-message";
         message.textContent = text;
         botMessages.appendChild(message);
-        scrollBotToBottom();
+        botMessages.scrollTop = botMessages.scrollHeight;
       }
-      /* =========================================
-         ADD BOT MESSAGE
-      ========================================= */
+
       function addBotMessage(text) {
         if (!botMessages) return;
         const message = document.createElement("div");
         message.className = "bot-message";
         message.innerHTML = text;
         botMessages.appendChild(message);
-        scrollBotToBottom();
+        botMessages.scrollTop = botMessages.scrollHeight;
       }
-      /* =========================================
-         SCROLL CHAT
-      ========================================= */
-      function scrollBotToBottom() {
-        if (botMessages) {
-          botMessages.scrollTop = botMessages.scrollHeight;
-        }
-      }
-      /* =========================================
-         PI-BOT RESPONSES
-      ========================================= */
+
       const botResponses = {
-        operations: `
-          🧮 <strong>Operations</strong>
-          is where you can solve mathematical problems.
-          <br><br>
-          Click
-          <strong>Operations</strong>
-          in the navigation bar.
-          <br><br>
-          🔐 You need to be logged in
-          to access it.
-          <br><br>
-          Once you're logged in,
-          you'll be taken to the Operations page
-          where you can use the available
-          math-solving features.
-        `,
-        login: `
-          🔐 <strong>Login</strong>
-          allows you to access protected
-          features of Math Solver.
-          <br><br>
-          You need to log in before using
-          the <strong>Operations</strong>
-          section.
-          <br><br>
-          If you're already logged in,
-          the Login button will be replaced
-          with your profile icon.
-        `,
-        website: `
-          🌐 <strong>Math Solver</strong>
-          is designed to make mathematical
-          problem solving easier.
-          <br><br>
-          You can explore the website using:
-          <br><br>
-          🧮 <strong>Operations</strong>
-          – Solve math problems
-          <br>
-          📖 <strong>About</strong>
-          – Learn about the project
-          <br>
-          ⚙️ <strong>Services</strong>
-          – Explore available services
-          <br>
-          📩 <strong>Contact</strong>
-          – Get in touch
-        `,
-        navigation: `
-          🧭 Here's a quick guide:
-          <br><br>
-          <strong>1.</strong>
-          Start by logging in.
-          <br><br>
-          <strong>2.</strong>
-          Go to
-          <strong>Operations</strong>
-          to use the math solver.
-          <br><br>
-          <strong>3.</strong>
-          Use
-          <strong>About</strong>
-          to understand the project.
-          <br><br>
-          <strong>4.</strong>
-          Check
-          <strong>Services</strong>
-          for available features.
-          <br><br>
-          <strong>5.</strong>
-          Use
-          <strong>Contact</strong>
-          if you need to reach us.
-        `
+        operations: `🧮 <strong>Operations</strong> is where you can solve mathematical problems.<br><br>Click <strong>Operations</strong> in the navigation bar.<br><br>🔐 You need to be logged in to access it.`,
+        login: `🔐 <strong>Login</strong> allows you to access protected features of Math Solver.<br><br>If you're already logged in, the Login button will be replaced with your profile icon.`,
+        website: `🌐 <strong>Math Solver</strong> is designed to make mathematical problem solving easier.<br><br>Explore using Operations, About, Services, and Contact.`,
+        navigation: `🧭 Here's a quick guide:<br>1. Start by logging in.<br>2. Go to Operations.<br>3. Explore About & Services.`
       };
-      /* =========================================
-         HANDLE QUESTIONS
-      ========================================= */
+
       document.querySelectorAll(".bot-questions button").forEach(button => {
         button.addEventListener("click", function () {
           const questionType = this.dataset.question;
-          const questionText = this.textContent.trim();
-          addUserMessage(questionText);
-          setTimeout(() => {
-            addBotMessage(botResponses[questionType]);
-          }, 400);
+          addUserMessage(this.textContent.trim());
+          setTimeout(() => { addBotMessage(botResponses[questionType]); }, 400);
         });
       });
-      /* =========================================
-         BOT BUTTON KEYBOARD SUPPORT
-      ========================================= */
-      if (botButton) {
-        botButton.addEventListener("keydown", (event) => {
-          if (event.key === "Enter" || event.key === " ") {
-            event.preventDefault();
-            botButton.click();
-          }
-        });
-      }
     });
   </script>
 </body>
