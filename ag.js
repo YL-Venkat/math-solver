@@ -117,9 +117,8 @@
   `;
   document.head.appendChild(style);
 
-  // Global function to show the modal
+  // Global function to show the modal (WITHOUT making the underlying page visible)
   window.showAuthGuardModal = function () {
-    document.documentElement.style.visibility = "visible";
     document.body.style.overflow = "hidden";
 
     let overlay = document.getElementById("authGuardOverlay");
@@ -157,7 +156,7 @@
     overlay.style.display = "flex";
   };
 
-  // Global function to hide the modal
+  // Global function to hide the modal and redirect
   window.closeAuthGuardModal = function () {
     const overlay = document.getElementById("authGuardOverlay");
     if (overlay) {
@@ -165,7 +164,6 @@
     }
     document.body.style.overflow = "";
 
-    // Redirect to index.html if user closes the modal on a protected page
     if (isProtectedPage) {
       window.location.href = "index.html";
     }
@@ -190,6 +188,7 @@
         return;
       }
 
+      // ONLY reveal the page content here, once session is fully validated
       document.documentElement.style.visibility = "visible";
     } catch (error) {
       window.showAuthGuardModal();
