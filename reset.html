@@ -1,22 +1,12 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
   <title>Math Solver - Reset Password</title>
-
-  <link
-    href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&display=swap"
-    rel="stylesheet">
-
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
+  
   <style>
-
-    /* =========================
-       GENERAL
-       ========================= */
-
     * {
       margin: 0;
       padding: 0;
@@ -25,87 +15,50 @@
 
     body {
       font-family: 'Montserrat', sans-serif;
-
-      height: 100vh;
-
+      min-height: 100vh;
       display: flex;
       justify-content: center;
       align-items: center;
-
-      overflow: hidden;
-
+      overflow-y: auto;
+      padding: 20px;
       background: #111;
     }
 
-
-    /* =========================
-       BACKGROUND
-       ========================= */
-
     body::before {
       content: "";
-
       position: fixed;
-
       inset: 0;
-
       background:
         linear-gradient(
           rgba(10, 10, 20, 0.55),
           rgba(10, 10, 20, 0.65)
         ),
         url("ms.jpg");
-
       background-size: cover;
       background-position: center;
-
       z-index: -2;
     }
 
-
-    /* =========================
-       RESET BOX
-       ========================= */
-
     .reset-box {
-
       width: 360px;
-
       padding: 40px;
-
       border-radius: 20px;
-
       background: rgba(255, 255, 255, 0.12);
-
       border: 1px solid rgba(255, 255, 255, 0.25);
-
       -webkit-backdrop-filter: blur(15px);
       backdrop-filter: blur(15px);
-
       box-shadow:
         0 0 20px rgba(0, 242, 255, 0.25),
         0 0 40px rgba(255, 0, 212, 0.15);
-
       animation: zoomIn 1s ease;
-
       position: relative;
     }
 
-
-    /* =========================
-       TITLE
-       ========================= */
-
     .reset-box h2 {
-
       text-align: center;
-
       margin-bottom: 15px;
-
       font-size: 28px;
-
       font-weight: 700;
-
       background: linear-gradient(
         90deg,
         #00f5ff,
@@ -114,130 +67,67 @@
         #ff00d4,
         #00f5ff
       );
-
       background-size: 400% 100%;
-
       color: transparent;
-
       -webkit-background-clip: text;
       background-clip: text;
-
       animation: mathColors 5s linear infinite;
     }
 
-
-    /* =========================
-       DESCRIPTION
-       ========================= */
-
     .description {
-
       text-align: center;
-
       color: rgba(255, 255, 255, 0.75);
-
       font-size: 13px;
-
       line-height: 1.6;
-
-      margin-bottom: 30px;
+      margin-bottom: 25px;
     }
-
-
-    /* =========================
-       INPUT
-       ========================= */
 
     .input-group {
-
       position: relative;
-
-      margin-bottom: 30px;
+      margin-bottom: 25px;
     }
-
 
     .input-group input {
-
       width: 100%;
-
       padding: 13px 10px;
-
       background: rgba(255, 255, 255, 0.08);
-
       border: none;
-
       border-bottom: 2px solid rgba(255, 255, 255, 0.5);
-
       border-radius: 5px 5px 0 0;
-
       color: white;
-
       font-size: 15px;
-
       outline: none;
-
       transition: 0.3s;
     }
-
 
     .input-group input:focus {
-
       border-bottom-color: #00f5ff;
-
-      box-shadow:
-        0 5px 15px rgba(0, 245, 255, 0.2);
+      box-shadow: 0 5px 15px rgba(0, 245, 255, 0.2);
     }
-
-
-    /* =========================
-       FLOATING LABEL
-       ========================= */
 
     .input-group label {
-
       position: absolute;
-
       left: 10px;
-
       top: 50%;
-
       transform: translateY(-50%);
-
       color: rgba(255, 255, 255, 0.7);
-
       font-size: 13px;
-
       pointer-events: none;
-
       transition: 0.3s;
     }
-
 
     .input-group input:focus + label,
     .input-group input:not(:placeholder-shown) + label {
-
       top: -9px;
-
       font-size: 11px;
-
       color: #00f5ff;
     }
 
-
-    /* =========================
-       RESET BUTTON
-       ========================= */
-
     .btn {
-
       width: 100%;
-
       padding: 13px;
-
       border: none;
-
       border-radius: 30px;
-
       background: linear-gradient(
         90deg,
         #00f5ff,
@@ -245,248 +135,190 @@
         #7a2cff,
         #ff00d4
       );
-
       background-size: 300% 100%;
-
       color: white;
-
       font-family: 'Montserrat', sans-serif;
-
       font-size: 16px;
-
       font-weight: 600;
-
       cursor: pointer;
-
       animation:
         buttonGradient 4s linear infinite,
         glowPulse 2s ease-in-out infinite;
-
       transition: transform 0.3s;
     }
 
-
     .btn:hover {
-
       transform: scale(1.04);
     }
 
-
-    /* =========================
-       FOOTER
-       ========================= */
+    .btn:disabled {
+      opacity: 0.6;
+      cursor: not-allowed;
+      transform: none;
+    }
 
     .footer {
-
       text-align: center;
-
       margin-top: 25px;
-
       font-size: 12px;
-
       color: rgba(255, 255, 255, 0.7);
-
       line-height: 2;
     }
 
-
     .footer a {
-
       color: #00f5ff;
-
       text-decoration: none;
-
       font-weight: 600;
-
       transition: 0.3s;
     }
 
-
     .footer a:hover {
-
       color: #ff00d4;
-
-      text-shadow:
-        0 0 10px #ff00d4;
+      text-shadow: 0 0 10px #ff00d4;
     }
-
-
-    /* =========================
-       ANIMATIONS
-       ========================= */
 
     @keyframes zoomIn {
-
-      from {
-        transform: scale(0.7);
-        opacity: 0;
-      }
-
-      to {
-        transform: scale(1);
-        opacity: 1;
-      }
-
+      from { transform: scale(0.7); opacity: 0; }
+      to { transform: scale(1); opacity: 1; }
     }
-
 
     @keyframes mathColors {
-
-      0% {
-        background-position: 0% 50%;
-      }
-
-      50% {
-        background-position: 100% 50%;
-      }
-
-      100% {
-        background-position: 0% 50%;
-      }
-
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
     }
-
 
     @keyframes buttonGradient {
-
-      0% {
-        background-position: 0% 50%;
-      }
-
-      50% {
-        background-position: 100% 50%;
-      }
-
-      100% {
-        background-position: 0% 50%;
-      }
-
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
     }
-
 
     @keyframes glowPulse {
-
-      0%,
-      100% {
-        box-shadow:
-          0 0 10px rgba(0, 245, 255, 0.5);
-      }
-
-      50% {
-        box-shadow:
-          0 0 20px rgba(0, 245, 255, 0.7),
-          0 0 35px rgba(255, 0, 212, 0.4);
-      }
-
+      0%, 100% { box-shadow: 0 0 10px rgba(0, 245, 255, 0.5); }
+      50% { box-shadow: 0 0 20px rgba(0, 245, 255, 0.7), 0 0 35px rgba(255, 0, 212, 0.4); }
     }
-
-
-    /* =========================
-       MOBILE
-       ========================= */
 
     @media (max-width: 500px) {
-
-      .reset-box {
-
-        width: 90%;
-
-        padding: 30px;
-      }
-
+      .reset-box { width: 90%; padding: 30px; }
     }
-
   </style>
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 </head>
-
-
 <body>
-
   <div class="reset-box">
-
     <h2>Reset Password</h2>
-
     <p class="description">
-      Enter your email address and we'll send you a link to reset your password.
+      Enter your registered email and 6-digit Recovery PIN to change your password immediately.
     </p>
 
-
     <div class="input-group">
-
       <input
         type="email"
         id="email"
         placeholder=" "
         required>
-
-      <label for="email">
-        Email Address
-      </label>
-
+      <label for="email">Email Address</label>
     </div>
 
+    <div class="input-group">
+      <input
+        type="password"
+        id="pin"
+        inputmode="numeric"
+        placeholder=" "
+        maxlength="6"
+        pattern="\d{6}"
+        required>
+      <label for="pin">6-Digit Recovery PIN</label>
+    </div>
 
-    <button class="btn">
-      Send Reset Link
+    <button class="btn" id="resetBtn">
+      Verify PIN & Continue
     </button>
 
-
     <div class="footer">
-
       <p>
         Remember your password?
         <a href="login.html">Back to Login</a>
       </p>
-
     </div>
-
   </div>
-<script src="supabase.js"></script>
 
-<script>
-  const resetButton = document.querySelector(".btn");
+  <script src="supabase.js"></script>
+  <script>
+    const pinInput = document.getElementById("pin");
+    const resetButton = document.getElementById("resetBtn");
+    const emailInput = document.getElementById("email");
 
-  resetButton.addEventListener("click", async () => {
+    // Allow only numeric digits in PIN field
+    pinInput.addEventListener("input", (e) => {
+      e.target.value = e.target.value.replace(/\D/g, "").slice(0, 6);
+    });
 
-    const email = document.getElementById("email").value.trim();
-
-    if (!email) {
-      alert("Please enter your email address.");
-      return;
-    }
-
-    resetButton.disabled = true;
-    resetButton.textContent = "Sending...";
-
-    const { error } =
-      await supabaseClient.auth.resetPasswordForEmail(
-        email,
-        {
-          redirectTo:
-            window.location.origin + "/update_password.html"
+    // Handle enter key press
+    [emailInput, pinInput].forEach((input) => {
+      input.addEventListener("keydown", (e) => {
+        if (e.key === "Enter") {
+          e.preventDefault();
+          resetButton.click();
         }
-      );
+      });
+    });
 
-    if (error) {
+    resetButton.addEventListener("click", async () => {
+      const email = emailInput.value.trim();
+      const pin = pinInput.value.trim();
 
-      alert(error.message);
+      if (!email) {
+        alert("Please enter your email address.");
+        return;
+      }
 
-      resetButton.disabled = false;
-      resetButton.textContent = "Send Reset Link";
+      if (pin.length !== 6) {
+        alert("Please enter your 6-digit Recovery PIN.");
+        return;
+      }
 
-      return;
-    }
+      resetButton.disabled = true;
+      resetButton.textContent = "Verifying PIN...";
 
-    alert(
-      "If an account exists for this email, " +
-      "a password reset link has been sent."
-    );
+      try {
+        // 1. Verify Email & PIN combination via RPC function
+        const { data: isPinValid, error: rpcError } = await supabaseClient.rpc(
+          'verify_user_pin',
+          { p_email: email, p_pin: pin }
+        );
 
-    resetButton.disabled = false;
-    resetButton.textContent = "Send Reset Link";
-  });
-</script>
+        if (rpcError) {
+          console.error("RPC Error:", rpcError);
+          alert("Verification error: " + rpcError.message);
+          resetButton.disabled = false;
+          resetButton.textContent = "Verify PIN & Continue";
+          return;
+        }
+
+        if (!isPinValid) {
+          alert("Invalid Email or Recovery PIN. Please double-check your details.");
+          resetButton.disabled = false;
+          resetButton.textContent = "Verify PIN & Continue";
+          return;
+        }
+
+        // 2. PIN is verified! Save verified context to sessionStorage
+        sessionStorage.setItem("reset_email", email);
+        sessionStorage.setItem("reset_pin_verified", "true");
+
+        // 3. Directly redirect to update_password.html without sending an email link
+        window.location.href = "update_password.html";
+
+      } catch (err) {
+        console.error("Unexpected error:", err);
+        alert("An error occurred. Please try again.");
+        resetButton.disabled = false;
+        resetButton.textContent = "Verify PIN & Continue";
+      }
+    });
+  </script>
 </body>
-
 </html>
